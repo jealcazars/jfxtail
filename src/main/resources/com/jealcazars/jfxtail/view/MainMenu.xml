@@ -14,6 +14,13 @@
 					<MenuItem text="Open" onAction="#handleOpenAction" />
 					<SeparatorMenuItem />
 					<MenuItem text="Exit" onAction="java.lang.System.exit(0);" />
+
+				</items>
+			</Menu>
+			<Menu text="Tools">
+				<items>
+					<MenuItem text="Highlight"
+						onAction="#handleHighlightsAction" />
 				</items>
 			</Menu>
 		</menus>

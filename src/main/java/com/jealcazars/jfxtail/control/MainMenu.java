@@ -21,8 +21,9 @@ public class MainMenu extends VBox {
 	private void handleOpenAction(final ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Resource File");
-		// File file = fileChooser.showOpenDialog(primaryStage);
-		File file = new File("D://prueba.log");
+
+		File file = fileChooser.showOpenDialog(getScene().getWindow());
+		// File file = new File("D://prueba.log");
 
 		TabPane tabPane = (TabPane) getScene().lookup("#tabPane");
 

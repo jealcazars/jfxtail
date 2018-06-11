@@ -9,7 +9,7 @@
 <?import com.jealcazars.jfxtail.control.toolbar.*?>
 
 <fx:root xmlns:fx="http://javafx.com/fxml"
-	type="javafx.scene.layout.VBox" spacing="5">
+	type="javafx.scene.layout.VBox" spacing="5" fx:id="mainPanel">
 	<MainMenu />
 	<ToolBar fx:id="toolBar">
 		<HBox>

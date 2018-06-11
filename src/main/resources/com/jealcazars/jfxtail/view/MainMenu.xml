@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml"
+	type="javafx.scene.layout.VBox" spacing="5">
+	<MenuBar fx:id="menuBar">
+		<menus>
+			<Menu text="File">
+				<items>
+					<MenuItem text="Open" onAction="#handleOpenAction" />
+					<SeparatorMenuItem />
+					<MenuItem text="Exit" onAction="java.lang.System.exit(0);" />
+				</items>
+			</Menu>
+		</menus>
+	</MenuBar>
+</fx:root>

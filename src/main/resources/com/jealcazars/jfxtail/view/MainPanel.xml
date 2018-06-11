@@ -13,8 +13,7 @@
 	<MainMenu />
 	<ToolBar fx:id="toolBar">
 		<HBox>
-			<PlayButton fx:id="playButton" text="Resume"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<PlayButton fx:id="playButton" minWidth="48" maxWidth="48">
 				<tooltip>
 					<Tooltip text="Tooltip text" />
 				</tooltip>
@@ -27,8 +26,11 @@
 					</ImageView>
 				</graphic>
 			</PlayButton>
-			<PauseButton fx:id="pauseButton" text="Pause"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<PauseButton fx:id="pauseButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Pause" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
@@ -38,8 +40,11 @@
 					</ImageView>
 				</graphic>
 			</PauseButton>
-			<FilterButton fx:id="filterButton" text="Filter"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<FilterButton fx:id="filterButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Filter" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
@@ -50,7 +55,10 @@
 				</graphic>
 			</FilterButton>
 			<ClearSelectedTabButton fx:id="pauseButton"
-				text="Clear" minWidth="100" maxWidth="100" contentDisplay="TOP">
+				minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Clear" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
@@ -60,8 +68,10 @@
 					</ImageView>
 				</graphic>
 			</ClearSelectedTabButton>
-			<ClearAllTabsButton text="Clear All"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<ClearAllTabsButton minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Clear All" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
@@ -71,8 +81,11 @@
 					</ImageView>
 				</graphic>
 			</ClearAllTabsButton>
-			<ReloadSelectedTabButton text="Reload"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<ReloadSelectedTabButton minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Reload" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
@@ -82,15 +95,17 @@
 					</ImageView>
 				</graphic>
 			</ReloadSelectedTabButton>
-			<ReloadAllTabsButton text="Reload All"
-				minWidth="100" maxWidth="100" contentDisplay="TOP">
+			<ReloadAllTabsButton minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Reload All" />
+				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
 							<Image url="com/jealcazars/jfxtail/icons/reloadAll.png"
 								preserveRatio="true" />
 						</image>
-					</ImageView> 
+					</ImageView>
 				</graphic>
 			</ReloadAllTabsButton>
 		</HBox>

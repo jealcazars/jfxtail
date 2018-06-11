@@ -32,12 +32,11 @@ public class FileListener implements Runnable {
 		this.file = file;
 		lastLength = file.length();
 		propertyChangeSupport = new PropertyChangeSupport(this);
-		setWatcherService();
+		initializeWatchService();
 		new Thread(this).start();
 	}
 
-	private void setWatcherService() throws IOException {
-		// Path must be a directory
+	private void initializeWatchService() throws IOException {
 		Path path = Paths.get(file.getParentFile().toURI());
 		service = path.getFileSystem().newWatchService();
 		path.register(service, ENTRY_CREATE, ENTRY_MODIFY);
@@ -50,44 +49,7 @@ public class FileListener implements Runnable {
 
 	@Override
 	public void run() {
-		doRunWithWatcherService();
-	}
-
-	// Only for JAVA7
-	private void doRunWithWatcherService() {
-		WatchKey key = null;
-
-		while (!stop) {
-			try {
-				key = service.take();
-
-				// Dequeueing events
-				Kind<?> kind = null;
-				for (WatchEvent<?> watchEvent : key.pollEvents()) {
-					// Get the type of the event
-					kind = watchEvent.kind();
-					if (ENTRY_MODIFY == kind) {
-						// A Modification happened
-						@SuppressWarnings("unchecked")
-						Path modifiedPath = ((WatchEvent<Path>) watchEvent).context();
-						if (modifiedPath.endsWith(file.getName())) {
-							LOG.debug("File modified: {}", file.getName());
-							propertyChangeSupport.firePropertyChange(FILE_WAS_MODIFIED, lastLength, file.length());
-							lastLength = file.length();
-						}
-					}
-				}
-
-				if (!key.reset()) {
-					break; // loop
-				}
-			} catch (ClosedWatchServiceException e) {
-				LOG.debug("Closed Watch Service");
-			} catch (Exception e) {
-				LOG.error("Error", e);
-			}
-		}
-		LOG.debug("Finished listener");
+		watchFileMofification();
 	}
 
 	public synchronized void stop() {
@@ -104,7 +66,7 @@ public class FileListener implements Runnable {
 		LOG.debug("Restarting listener {}", file.getName());
 
 		try {
-			setWatcherService();
+			initializeWatchService();
 			stop = false;
 			new Thread(this).start();
 		} catch (IOException e) {
@@ -112,4 +74,34 @@ public class FileListener implements Runnable {
 		}
 	}
 
+	private void watchFileMofification() {
+		WatchKey key = null;
+
+		while (!stop) {
+			try {
+				key = service.take();
+				Kind<?> kind = null;
+				for (WatchEvent<?> watchEvent : key.pollEvents()) {
+					kind = watchEvent.kind();
+					if (ENTRY_MODIFY == kind) {
+						@SuppressWarnings("unchecked")
+						Path modifiedPath = ((WatchEvent<Path>) watchEvent).context();
+						if (modifiedPath.endsWith(file.getName())) {
+							propertyChangeSupport.firePropertyChange(FILE_WAS_MODIFIED, lastLength, file.length());
+							lastLength = file.length();
+						}
+					}
+				}
+
+				if (!key.reset()) {
+					break;
+				}
+			} catch (ClosedWatchServiceException e) {
+				LOG.debug("Closed Watch Service");
+			} catch (Exception e) {
+				LOG.error("Error", e);
+			}
+		}
+		LOG.debug("Finished listener");
+	}
 }

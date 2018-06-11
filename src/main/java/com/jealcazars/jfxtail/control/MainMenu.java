@@ -23,11 +23,11 @@ public class MainMenu extends VBox {
 		fileChooser.setTitle("Open Resource File");
 
 		File file = fileChooser.showOpenDialog(getScene().getWindow());
-		// File file = new File("D://prueba.log");
 
-		TabPane tabPane = (TabPane) getScene().lookup("#tabPane");
-
-		TabFile tabFile = new TabFile(file, getScene());
-		tabPane.getTabs().add(tabFile);
+		if (file != null) {
+			TabPane tabPane = (TabPane) getScene().lookup("#tabPane");
+			TabFile tabFile = new TabFile(file, getScene());
+			tabPane.getTabs().add(tabFile);
+		}
 	}
 }

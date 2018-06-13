@@ -6,10 +6,8 @@ import java.beans.PropertyChangeSupport;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.file.FileListener;
 
@@ -22,7 +20,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 
 public class TabFile extends Tab implements PropertyChangeListener {
-	private static final Logger LOG = LoggerFactory.getLogger(TabFile.class);
+	private static final Logger LOG = Logger.getLogger(TabFile.class.getName());
 
 	File file;
 	FileListener fileListener;
@@ -45,19 +43,15 @@ public class TabFile extends Tab implements PropertyChangeListener {
 		textArea.prefWidthProperty().bind(scrollPane.widthProperty());
 		textArea.prefHeightProperty().bind(scrollPane.heightProperty());
 
-		try {
-			loadFile();
+		loadFile();
 
-			fileListener = new FileListener(file);
-			fileListener.addPropertyChangeListener(this);
-		} catch (IOException e) {
-			LOG.error("Error creating fileListener: {}", e.getMessage(), e);
-		}
+		fileListener = new FileListener(file);
+		fileListener.addPropertyChangeListener(this);
 
 		setOnClosed(new EventHandler<Event>() {
 			@Override
 			public void handle(Event event) {
-				LOG.debug("Closing tab!");
+				LOG.fine("Closing tab!");
 				fileListener.stop();
 			}
 		});
@@ -117,7 +111,7 @@ public class TabFile extends Tab implements PropertyChangeListener {
 				}
 			});
 		} catch (Exception e) {
-			LOG.error("Error {}", e.getMessage(), e);
+			LOG.log(Level.SEVERE, "Error " + e.getMessage(), e);
 		}
 
 	}

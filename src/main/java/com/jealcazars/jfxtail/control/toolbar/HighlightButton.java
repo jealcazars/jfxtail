@@ -6,16 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ToggleButton;
 
-public class FilterButton extends ToggleButton {
-	private static final Logger LOG = Logger.getLogger(FilterButton.class.getName());
+public class HighlightButton extends ToggleButton {
+	private static final Logger LOG = Logger.getLogger(HighlightButton.class.getName());
 
-	public FilterButton() {
+	public HighlightButton() {
 
 		setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				LOG.fine("FilterButton -- Not implemented yet");
+				LOG.fine("HighlightButton -- Not implemented yet");
 			}
 		});
 

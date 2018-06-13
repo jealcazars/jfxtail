@@ -4,14 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
+<?import com.jealcazars.jfxtail.control.menu.*?>
 
 <fx:root xmlns:fx="http://javafx.com/fxml"
-	type="javafx.scene.layout.VBox" spacing="5">
+	type="javafx.scene.layout.VBox" fx:id="root">
 	<MenuBar fx:id="menuBar">
 		<menus>
 			<Menu text="File">
 				<items>
 					<MenuItem text="Open" onAction="#handleOpenAction" />
+					<SeparatorMenuItem />
+					<Menu text="Recent Files" fx:id="recentFiles" />
 					<SeparatorMenuItem />
 					<MenuItem text="Exit" onAction="java.lang.System.exit(0);" />
 

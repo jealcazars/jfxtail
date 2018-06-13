@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import com.jealcazars.jfxtail.control.*?>
+<?import com.jealcazars.jfxtail.control.menu.*?>
+<?import com.jealcazars.jfxtail.control.toolbar.*?>
+
+<fx:root xmlns:fx="http://javafx.com/fxml"
+	type="javafx.scene.layout.VBox">
+	<ToolBar fx:id="toolBar">
+		<HBox>
+			<PauseButton fx:id="pauseButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Pause" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/pause.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</PauseButton>
+			<FilterButton fx:id="filterButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Filter" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/filter.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</FilterButton>
+			<ClearSelectedTabButton minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Clear" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/clear.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</ClearSelectedTabButton>
+			<ClearAllTabsButton minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Clear All" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/clearAll.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</ClearAllTabsButton>
+			<ReloadSelectedTabButton minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Reload" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/reload.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</ReloadSelectedTabButton>
+			<ReloadAllTabsButton minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Reload All" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/reloadAll.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</ReloadAllTabsButton>
+			<HighlightButton fx:id="highlightButton"
+				minWidth="48" maxWidth="48">
+				<tooltip>
+					<Tooltip text="Highlight" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/highlight.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</HighlightButton>
+			<SearchButton fx:id="searchButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Search" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/search.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</SearchButton>
+		</HBox>
+	</ToolBar>
+</fx:root>

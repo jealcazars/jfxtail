@@ -1,7 +1,6 @@
 package com.jealcazars.jfxtail.control.toolbar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.TabFile;
 
@@ -12,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 
 public class ClearSelectedTabButton extends Button {
-	private static final Logger LOG = LoggerFactory.getLogger(ClearSelectedTabButton.class);
+	private static final Logger LOG = Logger.getLogger(ClearSelectedTabButton.class.getName());
 
 	public ClearSelectedTabButton() {
 
@@ -20,7 +19,7 @@ public class ClearSelectedTabButton extends Button {
 
 			@Override
 			public void handle(ActionEvent event) {
-				LOG.debug("ClearSelectedTabButtonClick");
+				LOG.fine("ClearSelectedTabButtonClick");
 				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#tabPane");
 				if (tabPane.getSelectionModel().getSelectedItem() != null) {
 					((TabFile) tabPane.getSelectionModel().getSelectedItem()).clear();

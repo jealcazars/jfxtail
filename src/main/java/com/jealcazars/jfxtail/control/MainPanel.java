@@ -5,6 +5,7 @@ import com.jealcazars.jfxtail.view.FXMLViewLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class MainPanel extends VBox {
@@ -15,6 +16,8 @@ public class MainPanel extends VBox {
 	public MainPanel() {
 		super();
 		FXMLViewLoader.load(this, "MainPanel.xml");
+		VBox.setVgrow(tabPane, Priority.ALWAYS);
+
 	}
 
 	@FXML

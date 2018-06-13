@@ -1,7 +1,6 @@
 package com.jealcazars.jfxtail.control.toolbar;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.TabFile;
 
@@ -12,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
 
 public class ReloadSelectedTabButton extends Button {
-	private static final Logger LOG = LoggerFactory.getLogger(ReloadSelectedTabButton.class);
+	private static final Logger LOG = Logger.getLogger(ReloadSelectedTabButton.class.getName());
 
 	public ReloadSelectedTabButton() {
 
@@ -20,7 +19,7 @@ public class ReloadSelectedTabButton extends Button {
 
 			@Override
 			public void handle(ActionEvent event) {
-				LOG.debug("ReloadSelectedTabButton");
+				LOG.fine("ReloadSelectedTabButton");
 				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#tabPane");
 				if (tabPane.getSelectionModel().getSelectedItem() != null) {
 					((TabFile) tabPane.getSelectionModel().getSelectedItem()).reload();

@@ -20,7 +20,7 @@
 				<graphic>
 					<ImageView>
 						<image>
-							<Image url="com/jealcazars/jfxtail/icons/control_play.png"
+							<Image url="com/jealcazars/jfxtail/icons/play.png"
 								preserveRatio="true" />
 						</image>
 					</ImageView>
@@ -34,7 +34,7 @@
 				<graphic>
 					<ImageView>
 						<image>
-							<Image url="com/jealcazars/jfxtail/icons/control_pause.png"
+							<Image url="com/jealcazars/jfxtail/icons/pause.png"
 								preserveRatio="true" />
 						</image>
 					</ImageView>
@@ -54,7 +54,7 @@
 					</ImageView>
 				</graphic>
 			</FilterButton>
-			<ClearSelectedTabButton fx:id="pauseButton"
+			<ClearSelectedTabButton
 				minWidth="48" maxWidth="48">
 				<tooltip>
 					<Tooltip text="Clear" />
@@ -62,7 +62,7 @@
 				<graphic>
 					<ImageView>
 						<image>
-							<Image url="com/jealcazars/jfxtail/icons/page.png"
+							<Image url="com/jealcazars/jfxtail/icons/clear.png"
 								preserveRatio="true" />
 						</image>
 					</ImageView>
@@ -75,7 +75,7 @@
 				<graphic>
 					<ImageView>
 						<image>
-							<Image url="com/jealcazars/jfxtail/icons/page.png"
+							<Image url="com/jealcazars/jfxtail/icons/clearAll.png"
 								preserveRatio="true" />
 						</image>
 					</ImageView>

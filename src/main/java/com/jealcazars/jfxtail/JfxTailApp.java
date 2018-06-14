@@ -1,5 +1,6 @@
 package com.jealcazars.jfxtail;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,25 +17,14 @@ public class JfxTailApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		System.setProperty("java.util.logging.SimpleFormatter.format",
-				"[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s %5$s%6$s%n");
+		setLoggerConfig();
 
-		Logger rootLog = Logger.getLogger("");
-		rootLog.setLevel(Level.FINE);
-		rootLog.getHandlers()[0].setLevel(Level.FINE);
+		LOG.fine("Starting JfxTailApp");
 
 		primaryStage.setTitle("jfxTail");
 		MainPanel root = new MainPanel();
 		Scene scene = new Scene(root, 800, 600);
 		scene.getStylesheets().add("com/jealcazars/jfxtail/css/jfxtail.css");
-		// Screen screen = Screen.getPrimary();
-		// Rectangle2D bounds = screen.getVisualBounds();
-		//
-		// primaryStage.setX(bounds.getMinX());
-		// primaryStage.setY(bounds.getMinY());
-		// primaryStage.setWidth(bounds.getWidth());
-		// primaryStage.setHeight(bounds.getHeight());
-
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -44,6 +34,18 @@ public class JfxTailApp extends Application {
 				System.exit(0);
 			}
 		});
+
+	}
+
+	private void setLoggerConfig() {
+		System.setProperty("java.util.logging.SimpleFormatter.format",
+				"[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-6s] %2$s %5$s%6$s%n");
+
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+		consoleHandler.setLevel(Level.FINE);
+		Logger logger = Logger.getLogger("com.jealcazars");
+		logger.addHandler(consoleHandler);
+		logger.setLevel(Level.FINE);
 
 	}
 

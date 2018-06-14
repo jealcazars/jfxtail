@@ -3,7 +3,7 @@ package com.jealcazars.jfxtail.control.toolbar;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
-import com.jealcazars.jfxtail.control.TabFile;
+import com.jealcazars.jfxtail.control.LogFileTab;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,10 +23,10 @@ public class ClearAllTabsButton extends Button {
 			@Override
 			public void handle(ActionEvent event) {
 				LOG.fine("ClearButtonClick");
-				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#tabPane");
+				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#logFilesTabPane");
 				ObservableList<Tab> tabs = tabPane.getTabs();
 				for (Iterator<Tab> iterator = tabs.iterator(); iterator.hasNext();) {
-					TabFile tab = (TabFile) iterator.next();
+					LogFileTab tab = (LogFileTab) iterator.next();
 					tab.clear();
 				}
 			}

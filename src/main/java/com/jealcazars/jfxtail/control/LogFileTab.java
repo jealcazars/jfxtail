@@ -19,15 +19,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 
-public class TabFile extends Tab implements PropertyChangeListener {
-	private static final Logger LOG = Logger.getLogger(TabFile.class.getName());
+public class LogFileTab extends Tab implements PropertyChangeListener {
+	private static final Logger LOG = Logger.getLogger(LogFileTab.class.getName());
 
 	File file;
 	FileListener fileListener;
 	TextArea textArea = new TextArea();
 	private PropertyChangeSupport propertyChangeSupport;
 
-	public TabFile(File file, Scene scene) {
+	public LogFileTab(File file, Scene scene) {
 		super();
 		propertyChangeSupport = new PropertyChangeSupport(this);
 

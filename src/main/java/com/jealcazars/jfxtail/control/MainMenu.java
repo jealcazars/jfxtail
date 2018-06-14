@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.VBox;
 
 public class MainMenu extends VBox {
@@ -36,21 +37,43 @@ public class MainMenu extends VBox {
 		recentFiles.getItems().clear();
 
 		List<String> recentFilesPath = JfxTailAppPreferences.getLastOpenedFiles();
+
+		LOG.fine("recentFilesPath.size: " + recentFilesPath.size());
+		LOG.fine("recentFilesPath: " + recentFilesPath);
+
 		for (Iterator<String> iterator = recentFilesPath.iterator(); iterator.hasNext();) {
 			File file = new File(iterator.next());
+			LOG.fine("Adding to recent files: " + file.getAbsolutePath());
+
 			MenuItem menuItem = new MenuItem(file.getAbsolutePath());
 
 			menuItem.setOnAction(new EventHandler<ActionEvent>() {
 
 				@Override
 				public void handle(ActionEvent event) {
-					TabPaneFiles tabPane = (TabPaneFiles) getScene().lookup("#tabPane");
+					LogFilesTabPane tabPane = (LogFilesTabPane) getScene().lookup("#logFilesTabPane");
 					tabPane.addFile(file);
 					refreshRecentFiles();
 				}
 			});
 
 			recentFiles.getItems().add(menuItem);
+		}
+
+		if (recentFiles.getItems().size() > 0) {
+			MenuItem clearRecentFiles = new MenuItem("Clear");
+
+			clearRecentFiles.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					JfxTailAppPreferences.clearLastOpenedFiles();
+					refreshRecentFiles();
+				}
+			});
+
+			recentFiles.getItems().add(new SeparatorMenuItem());
+			recentFiles.getItems().add(clearRecentFiles);
 		}
 	}
 }

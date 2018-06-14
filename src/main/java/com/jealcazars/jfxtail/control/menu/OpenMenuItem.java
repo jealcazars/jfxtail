@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.MainMenu;
-import com.jealcazars.jfxtail.control.TabPaneFiles;
+import com.jealcazars.jfxtail.control.LogFilesTabPane;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
@@ -40,8 +40,8 @@ public class OpenMenuItem extends MenuItem {
 				File chosenFile = fileChooser.showOpenDialog(parent.getScene().getWindow());
 
 				if (chosenFile != null) {
-					TabPaneFiles tabPane = (TabPaneFiles) parent.getScene().lookup("#tabPane");
-					tabPane.addFile(chosenFile);
+					LogFilesTabPane tabPaneFiles = (LogFilesTabPane) parent.getScene().lookup("#logFilesTabPane");
+					tabPaneFiles.addFile(chosenFile);
 					parent.refreshRecentFiles();
 				}
 			}

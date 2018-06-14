@@ -9,10 +9,11 @@
 <?import com.jealcazars.jfxtail.control.toolbar.*?>
 
 <fx:root xmlns:fx="http://javafx.com/fxml"
-	type="javafx.scene.layout.VBox" fx:id="mainPanel">
+	type="javafx.scene.layout.VBox">
 	<MainMenu />
 	<MainToolbar />
-	<TabPaneFiles fx:id="tabPane" tabClosingPolicy="ALL_TABS">
+	<LogFilesTabPane fx:id="logFilesTabPane"
+		tabClosingPolicy="ALL_TABS">
 
-	</TabPaneFiles>
+	</LogFilesTabPane>
 </fx:root>

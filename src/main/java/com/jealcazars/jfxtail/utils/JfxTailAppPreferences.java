@@ -33,8 +33,16 @@ public class JfxTailAppPreferences {
 		LOG.fine("Saved " + LAST_KNOWN_FOLDER + " " + lastFolder);
 	}
 
+	public static void clearLastOpenedFiles() {
+		preferences.put(LAST_OPENED_FILES, "");
+	}
+
 	public static List<String> getLastOpenedFiles() {
-		return Arrays.asList(preferences.get(LAST_OPENED_FILES, "").split("#"));
+		if (preferences.get(LAST_OPENED_FILES, "").equals("")) {
+			return new ArrayList<>();
+		} else {
+			return Arrays.asList(preferences.get(LAST_OPENED_FILES, "").split("#"));
+		}
 	}
 
 	public static void addToLastOpenedFiles(String file) {

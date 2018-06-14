@@ -2,7 +2,7 @@ package com.jealcazars.jfxtail.control.toolbar;
 
 import java.util.logging.Logger;
 
-import com.jealcazars.jfxtail.control.TabFile;
+import com.jealcazars.jfxtail.control.LogFileTab;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -20,9 +20,9 @@ public class ReloadSelectedTabButton extends Button {
 			@Override
 			public void handle(ActionEvent event) {
 				LOG.fine("ReloadSelectedTabButton");
-				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#tabPane");
+				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#logFilesTabPane");
 				if (tabPane.getSelectionModel().getSelectedItem() != null) {
-					((TabFile) tabPane.getSelectionModel().getSelectedItem()).reload();
+					((LogFileTab) tabPane.getSelectionModel().getSelectedItem()).reload();
 				}
 			}
 		});

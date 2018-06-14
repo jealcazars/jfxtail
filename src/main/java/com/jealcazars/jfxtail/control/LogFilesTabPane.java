@@ -10,12 +10,15 @@ import javafx.scene.control.TabPane;
 public class LogFilesTabPane extends TabPane {
 	private static final Logger LOG = Logger.getLogger(LogFilesTabPane.class.getName());
 
-	public void addFile(File file) {
+	public void addFile(File file, boolean setLastKnowFolder) {
 		LOG.fine("Adding file to panel: " + file.getAbsolutePath());
 		LogFileTab tabFile = new LogFileTab(file, getScene());
 		getTabs().add(tabFile);
 
-		JfxTailAppPreferences.setLastKnowFolder(file.getParentFile().getAbsolutePath());
+		if (setLastKnowFolder) {
+			JfxTailAppPreferences.setLastKnowFolder(file.getParentFile().getAbsolutePath());
+		}
+		
 		JfxTailAppPreferences.addToLastOpenedFiles(file.getAbsolutePath());
 	}
 

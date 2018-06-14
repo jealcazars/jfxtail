@@ -6,7 +6,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.LogFilesTabPane;
-import com.jealcazars.jfxtail.control.MainMenu;
 import com.jealcazars.jfxtail.control.MainPanel;
 
 import javafx.application.Application;
@@ -57,12 +56,9 @@ public class JfxTailApp extends Application {
 						LOG.fine("Drag&Drop adding: " + file.getAbsolutePath());
 
 						LogFilesTabPane tabPaneFiles = (LogFilesTabPane) scene.lookup("#logFilesTabPane");
-						tabPaneFiles.addFile(file);
+						tabPaneFiles.addFile(file, false);
 					}
 					LOG.fine("Files added, refreshing recent menu now");
-
-					MainMenu mainMenu = (MainMenu) scene.lookup("#mainMenu");
-					mainMenu.refreshRecentFiles();
 				}
 
 				event.setDropCompleted(success);

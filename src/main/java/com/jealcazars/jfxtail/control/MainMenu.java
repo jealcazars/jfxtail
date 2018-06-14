@@ -10,6 +10,7 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 import com.jealcazars.jfxtail.view.FXMLViewLoader;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
@@ -28,11 +29,18 @@ public class MainMenu extends VBox {
 
 	public MainMenu() {
 		FXMLViewLoader.load(this, "MainMenu.xml");
-		refreshRecentFiles();
 		menuItemOpen.setParent(this);
+		addClearButtonToRecentFiles();
+		recentFiles.setOnShowing(new EventHandler<Event>() {
+
+			@Override
+			public void handle(Event event) {
+				refreshRecentFiles();
+			}
+		});
 	}
 
-	public void refreshRecentFiles() {
+	private void refreshRecentFiles() {
 		LOG.fine("Refreshing recent files");
 		recentFiles.getItems().clear();
 
@@ -52,7 +60,7 @@ public class MainMenu extends VBox {
 				@Override
 				public void handle(ActionEvent event) {
 					LogFilesTabPane tabPane = (LogFilesTabPane) getScene().lookup("#logFilesTabPane");
-					tabPane.addFile(file);
+					tabPane.addFile(file, false);
 					refreshRecentFiles();
 				}
 			});
@@ -60,20 +68,22 @@ public class MainMenu extends VBox {
 			recentFiles.getItems().add(menuItem);
 		}
 
-		if (recentFiles.getItems().size() > 0) {
-			MenuItem clearRecentFiles = new MenuItem("Clear");
+		addClearButtonToRecentFiles();
+	}
 
-			clearRecentFiles.setOnAction(new EventHandler<ActionEvent>() {
+	private void addClearButtonToRecentFiles() {
+		MenuItem clearRecentFiles = new MenuItem("Clear");
 
-				@Override
-				public void handle(ActionEvent event) {
-					JfxTailAppPreferences.clearLastOpenedFiles();
-					refreshRecentFiles();
-				}
-			});
+		clearRecentFiles.setOnAction(new EventHandler<ActionEvent>() {
 
-			recentFiles.getItems().add(new SeparatorMenuItem());
-			recentFiles.getItems().add(clearRecentFiles);
-		}
+			@Override
+			public void handle(ActionEvent event) {
+				JfxTailAppPreferences.clearLastOpenedFiles();
+				refreshRecentFiles();
+			}
+		});
+
+		recentFiles.getItems().add(new SeparatorMenuItem());
+		recentFiles.getItems().add(clearRecentFiles);
 	}
 }

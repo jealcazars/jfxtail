@@ -8,11 +8,11 @@
 
 <fx:root xmlns:fx="http://javafx.com/fxml"
 	type="javafx.scene.layout.VBox" fx:id="root">
-	<MenuBar fx:id="menuBar">
+	<MenuBar>
 		<menus>
 			<Menu text="File">
 				<items>
-					<MenuItem text="Open" onAction="#handleOpenAction" />
+					<OpenMenuItem text="Open" fx:id="menuItemOpen" />
 					<SeparatorMenuItem />
 					<Menu text="Recent Files" fx:id="recentFiles" />
 					<SeparatorMenuItem />
@@ -22,8 +22,7 @@
 			</Menu>
 			<Menu text="Tools">
 				<items>
-					<MenuItem text="Highlight"
-						onAction="#handleHighlightsAction" />
+					<HighlightMenuItem text="Highlight" />
 				</items>
 			</Menu>
 		</menus>

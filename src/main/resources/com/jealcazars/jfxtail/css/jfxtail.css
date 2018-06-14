@@ -1,0 +1,17 @@
+.Yellow {
+	-fx-fill: black;
+	-fx-font-weight: bold;
+	-rtfx-background-color: yellow;
+}
+
+.Green {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: green;
+}
+
+.Red {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: red;
+}

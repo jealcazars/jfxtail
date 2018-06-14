@@ -29,7 +29,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import test.JavaKeywordsAsyncDemo;
 
 public class LogFileTab extends Tab implements PropertyChangeListener {
 	private static final Logger LOG = Logger.getLogger(LogFileTab.class.getName());
@@ -50,8 +49,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
 		setContent(virtualizedScrollPane);
 		codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-
-		scene.getStylesheets().add(JavaKeywordsAsyncDemo.class.getResource("java-keywords.css").toExternalForm());
 
 		fileListener = new FileListener(file);
 		fileListener.addPropertyChangeListener(this);
@@ -144,19 +141,35 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 
 	private static StyleSpans<Collection<String>> computeHighlighting(String text,
 			LinkedList<HighlightFilter> highlightFilters) {
-		String highlight = highlightFilters.getFirst().getToken();
+		// StringBuilder patternSb = new StringBuilder(
+		// "(?<KEYWORD>" + highlight + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
 
-		StringBuilder patternSb = new StringBuilder(
-				"(?<KEYWORD>" + highlight + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
+		StringBuilder patternSb = new StringBuilder();
+
+		for (int i = 0; i < highlightFilters.size(); i++) {
+			if (patternSb.length() > 0) {
+				patternSb.append("|");
+			}
+			patternSb.append("(?<filter").append(i).append(">").append(highlightFilters.get(i).getToken()).append(")");
+		}
+
+		LOG.fine("patternSb: " + patternSb);
 
 		Pattern pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
 		Matcher matcher = pattern.matcher(text);
+
 		int lastKwEnd = 0;
 		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 		while (matcher.find()) {
-			String styleClass = matcher.group("KEYWORD") != null ? "keyword"
-					: matcher.group("COMMENT") != null ? "comment" : null;
+			// String styleClass = matcher.group("KEYWORD") != null ? "keyword"
+			// : matcher.group("COMMENT") != null ? "comment" : null;
+
+			String styleClass = null;
+
+			for (int i = 0; styleClass == null && i < highlightFilters.size(); i++) {
+				styleClass = matcher.group("filter" + i) != null ? highlightFilters.get(i).getColor() : null;
+			}
 
 			assert styleClass != null;
 
@@ -165,6 +178,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			lastKwEnd = matcher.end();
 
 		}
+
 		spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
 
 		return spansBuilder.create();

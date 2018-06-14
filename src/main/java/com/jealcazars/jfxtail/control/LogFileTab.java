@@ -9,22 +9,25 @@ import java.io.FileInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+
 import com.jealcazars.jfxtail.file.FileListener;
 
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
 
 public class LogFileTab extends Tab implements PropertyChangeListener {
 	private static final Logger LOG = Logger.getLogger(LogFileTab.class.getName());
 
 	File file;
 	FileListener fileListener;
-	TextArea textArea = new TextArea();
+	private CodeArea logArea = new CodeArea();
+
 	private PropertyChangeSupport propertyChangeSupport;
 
 	public LogFileTab(File file, Scene scene) {
@@ -34,14 +37,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		this.file = file;
 
 		this.setText(file.getName());
-		ScrollPane scrollPane = new ScrollPane();
-		scrollPane.setContent(textArea);
-		setContent(scrollPane);
-
-		scrollPane.prefHeightProperty().bind(scene.heightProperty());
-		scrollPane.prefWidthProperty().bind(scene.widthProperty());
-		textArea.prefWidthProperty().bind(scrollPane.widthProperty());
-		textArea.prefHeightProperty().bind(scrollPane.heightProperty());
+		VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(logArea);
+		setContent(virtualizedScrollPane);
+		logArea.setParagraphGraphicFactory(LineNumberFactory.get(logArea));
 
 		loadFile();
 
@@ -62,7 +60,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	}
 
 	public void clear() {
-		textArea.setText("");
+		logArea.clear();
 	}
 
 	public void reload() {
@@ -104,9 +102,10 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 				@Override
 				public void run() {
 					if (append) {
-						textArea.appendText(newLines);
+						logArea.appendText(newLines);
 					} else {
-						textArea.setText(newLines);
+						logArea.clear();
+						logArea.replaceText(0, 0, newLines);
 					}
 				}
 			});

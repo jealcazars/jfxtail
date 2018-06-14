@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+
+
+<fx:root xmlns:fx="http://javafx.com/fxml"
+	type="javafx.scene.layout.BorderPane" fx:id="root">
+	<center>
+		<VBox>
+			<TableView fx:id="highlightFiltersTable">
+				<columns>
+					<TableColumn text="Filter">
+						<cellValueFactory>
+							<PropertyValueFactory property="token" />
+						</cellValueFactory>
+					</TableColumn>
+					<TableColumn text="Color">
+						<cellValueFactory>
+							<PropertyValueFactory property="color" />
+						</cellValueFactory>
+					</TableColumn>
+				</columns>
+			</TableView>
+			<Button text="Delete"
+				onAction="#removeHighlightFilterFromTable"></Button>
+		</VBox>
+
+	</center>
+	<bottom>
+		<GridPane hgap="10" vgap="10">
+			<TextField GridPane.columnIndex="0" GridPane.rowIndex="1"
+				fx:id="token" />
+			<ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1"
+				fx:id="color">
+				<items>
+					<FXCollections fx:factory="observableArrayList">
+						<String fx:value="Yellow" />
+						<String fx:value="Green" />
+						<String fx:value="Red" />
+					</FXCollections>
+				</items>
+				<value>
+					<String fx:value="Yellow" />
+				</value>
+			</ComboBox>
+			<Button text="Add" GridPane.columnIndex="3"
+				GridPane.rowIndex="1" onAction="#addHighlightFilterToTable"></Button>
+		</GridPane>
+	</bottom>
+
+</fx:root>

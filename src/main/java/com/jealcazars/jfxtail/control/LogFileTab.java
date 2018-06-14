@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -19,7 +20,9 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 
+import com.jealcazars.jfxtail.control.highlight.HighlightFilter;
 import com.jealcazars.jfxtail.file.FileListener;
+import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -121,12 +124,12 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 						codeArea.appendText(newLines[i]);
 					}
 
-					if ("true".equals(System.getProperty("HighlightButton")) && System.getProperty("highlight") != null
-							&& System.getProperty("highlight").trim().length() > 0) {
-						applyHighlighting(computeHighlighting(codeArea.getText()));
-					}
-
-					if ("true".equals(System.getProperty("CleanHighlights"))) {
+					if ("false".equals(System.getProperty("CleanHighlights"))) {
+						LinkedList<HighlightFilter> highlightFilters = JfxTailAppPreferences.loadHighlightFilters();
+						if (!highlightFilters.isEmpty()) {
+							applyHighlighting(computeHighlighting(codeArea.getText(), highlightFilters));
+						}
+					} else if ("true".equals(System.getProperty("CleanHighlights"))) {
 						cleanHighlighting(codeArea.getText());
 					}
 				}
@@ -139,17 +142,16 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 
 	private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
-	private static StyleSpans<Collection<String>> computeHighlighting(String text) {
-		String highlight = System.getProperty("highlight");
+	private static StyleSpans<Collection<String>> computeHighlighting(String text,
+			LinkedList<HighlightFilter> highlightFilters) {
+		String highlight = highlightFilters.getFirst().getToken();
 
 		StringBuilder patternSb = new StringBuilder(
-				"(?<KEYWORD>" + "\\b" + highlight + "\\b" + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
+				"(?<KEYWORD>" + highlight + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
 
-		// Pattern PATTERN = Pattern.compile("(?<KEYWORD>" + "\\b(" + String.join("|",
-		// KEYWORDS) + ")\\b" + ")"
-		Pattern PATTERN = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE);
+		Pattern pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-		Matcher matcher = PATTERN.matcher(text);
+		Matcher matcher = pattern.matcher(text);
 		int lastKwEnd = 0;
 		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 		while (matcher.find()) {

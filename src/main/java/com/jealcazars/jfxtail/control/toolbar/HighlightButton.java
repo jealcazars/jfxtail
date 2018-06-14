@@ -8,6 +8,7 @@ import javafx.scene.control.ToggleButton;
 
 public class HighlightButton extends ToggleButton {
 	private static final Logger LOG = Logger.getLogger(HighlightButton.class.getName());
+	boolean active = false;
 
 	public HighlightButton() {
 
@@ -15,7 +16,17 @@ public class HighlightButton extends ToggleButton {
 
 			@Override
 			public void handle(ActionEvent event) {
+				if (active) {
+					System.setProperty("CleanHighlights", "true");
+					LOG.fine("Highlights must be cleaned");
+				} else {
+					System.setProperty("CleanHighlights", "false");
+				}
+
+				active = !active;
+
 				LOG.fine("HighlightButton -- Not implemented yet");
+				System.setProperty("HighlightButton", String.valueOf(active));
 			}
 		});
 

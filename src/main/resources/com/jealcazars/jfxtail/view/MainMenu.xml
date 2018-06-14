@@ -22,7 +22,8 @@
 			</Menu>
 			<Menu text="Tools">
 				<items>
-					<HighlightMenuItem text="Highlight" />
+					<HighlightMenuItem text="Highlight Filter" />
+					<MenuItem text="Include Filter" />
 				</items>
 			</Menu>
 		</menus>

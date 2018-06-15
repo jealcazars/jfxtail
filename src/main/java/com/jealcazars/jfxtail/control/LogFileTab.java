@@ -6,23 +6,15 @@ import java.beans.PropertyChangeSupport;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.model.StyleSpans;
-import org.fxmisc.richtext.model.StyleSpansBuilder;
 
-import com.jealcazars.jfxtail.control.highlight.HighlightFilter;
+import com.jealcazars.jfxtail.control.highlight.HighlightFilterProcessor;
 import com.jealcazars.jfxtail.file.FileListener;
-import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -85,6 +77,14 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		fileListener.restart();
 	}
 
+	public void applyHighlightFilter() {
+		HighlightFilterProcessor.applyHighlighting(codeArea);
+	}
+
+	public void cleanHighlightFilter() {
+		HighlightFilterProcessor.cleanHighlighting(codeArea);
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (FileListener.FILE_WAS_MODIFIED.equals(evt.getPropertyName())) {
@@ -123,70 +123,17 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 					}
 
 					if ("false".equals(System.getProperty("CleanHighlights"))) {
-						LinkedList<HighlightFilter> highlightFilters = JfxTailAppPreferences.loadHighlightFilters();
-						if (!highlightFilters.isEmpty()) {
-							applyHighlighting(computeHighlighting(codeArea.getText(), highlightFilters));
-						}
+						HighlightFilterProcessor.applyHighlighting(codeArea);
 					} else if ("true".equals(System.getProperty("CleanHighlights"))) {
-						cleanHighlighting(codeArea.getText());
+						HighlightFilterProcessor.cleanHighlighting(codeArea);
 					}
-					
+
 					codeArea.scrollBy(new Point2D(0, 10000));
 				}
 			});
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, "Error " + e.getMessage(), e);
 		}
-
 	}
 
-	private static StyleSpans<Collection<String>> computeHighlighting(String text,
-			LinkedList<HighlightFilter> highlightFilters) {
-
-		StringBuilder patternSb = new StringBuilder();
-
-		for (int i = 0; i < highlightFilters.size(); i++) {
-			if (patternSb.length() > 0) {
-				patternSb.append("|");
-			}
-			patternSb.append("(?<filter").append(i).append(">").append(highlightFilters.get(i).getToken()).append(")");
-		}
-
-		LOG.fine("patternSb: " + patternSb);
-
-		Pattern pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
-		Matcher matcher = pattern.matcher(text);
-
-		int lastKwEnd = 0;
-		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
-		while (matcher.find()) {
-
-			String styleClass = null;
-
-			for (int i = 0; styleClass == null && i < highlightFilters.size(); i++) {
-				styleClass = matcher.group("filter" + i) != null ? highlightFilters.get(i).getColor() : null;
-			}
-
-			assert styleClass != null;
-
-			spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-			spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
-			lastKwEnd = matcher.end();
-		}
-
-		spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
-
-		return spansBuilder.create();
-	}
-
-	private void cleanHighlighting(String text) {
-		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
-		spansBuilder.add(Collections.emptyList(), text.length() - 0);
-		codeArea.setStyleSpans(0, spansBuilder.create());
-	}
-
-	private void applyHighlighting(StyleSpans<Collection<String>> highlighting) {
-		codeArea.setStyleSpans(0, highlighting);
-	}
 }

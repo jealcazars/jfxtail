@@ -27,6 +27,7 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 
@@ -38,6 +39,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	private CodeArea codeArea = new CodeArea();
 
 	private PropertyChangeSupport propertyChangeSupport;
+	VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
 
 	public LogFileTab(File file, Scene scene) {
 		super();
@@ -46,10 +48,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		this.file = file;
 
 		this.setText(file.getName());
-		VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
+
 		setContent(virtualizedScrollPane);
 		codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-
 		fileListener = new FileListener(file);
 		fileListener.addPropertyChangeListener(this);
 
@@ -129,6 +130,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 					} else if ("true".equals(System.getProperty("CleanHighlights"))) {
 						cleanHighlighting(codeArea.getText());
 					}
+					
+					codeArea.scrollBy(new Point2D(0, 10000));
 				}
 			});
 		} catch (Exception e) {
@@ -137,12 +140,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 
 	}
 
-	private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-
 	private static StyleSpans<Collection<String>> computeHighlighting(String text,
 			LinkedList<HighlightFilter> highlightFilters) {
-		// StringBuilder patternSb = new StringBuilder(
-		// "(?<KEYWORD>" + highlight + ")" + "|(?<COMMENT>" + COMMENT_PATTERN + ")");
 
 		StringBuilder patternSb = new StringBuilder();
 
@@ -162,8 +161,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		int lastKwEnd = 0;
 		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 		while (matcher.find()) {
-			// String styleClass = matcher.group("KEYWORD") != null ? "keyword"
-			// : matcher.group("COMMENT") != null ? "comment" : null;
 
 			String styleClass = null;
 
@@ -176,7 +173,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
 			spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
 			lastKwEnd = matcher.end();
-
 		}
 
 		spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
@@ -187,7 +183,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	private void cleanHighlighting(String text) {
 		StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
 		spansBuilder.add(Collections.emptyList(), text.length() - 0);
-
 		codeArea.setStyleSpans(0, spansBuilder.create());
 	}
 

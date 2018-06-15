@@ -2,6 +2,7 @@ package com.jealcazars.jfxtail.control.textfilter;
 
 import java.util.logging.Logger;
 
+import com.jealcazars.jfxtail.control.filter.text.TextFilter;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 import com.jealcazars.jfxtail.view.FXMLViewLoader;
 

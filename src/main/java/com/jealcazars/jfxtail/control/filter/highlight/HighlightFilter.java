@@ -1,4 +1,4 @@
-package com.jealcazars.jfxtail.control.highlight;
+package com.jealcazars.jfxtail.control.filter.highlight;
 
 public class HighlightFilter {
 	private String token;

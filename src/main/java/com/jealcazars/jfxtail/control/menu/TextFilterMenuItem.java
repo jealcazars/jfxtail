@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import com.jealcazars.jfxtail.control.textfilter.TextFilter;
-import com.jealcazars.jfxtail.control.textfilter.TextFilterPanel;
-import com.jealcazars.jfxtail.control.textfilter.TextFilterProcessor;
+import com.jealcazars.jfxtail.control.filter.text.TextFilter;
+import com.jealcazars.jfxtail.control.filter.text.TextFilterPanel;
+import com.jealcazars.jfxtail.control.filter.text.TextFilterProcessor;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
@@ -27,7 +27,9 @@ public class TextFilterMenuItem extends MenuItem {
 				LOG.fine("MenuHighlight");
 
 				Dialog<LinkedList<TextFilter>> dialog = new Dialog<>();
+				// TextFilterPanel textFiltersPanel = new TextFilterPanel();
 				TextFilterPanel textFiltersPanel = new TextFilterPanel();
+
 				dialog.getDialogPane().setContent(textFiltersPanel);
 				dialog.getDialogPane().setPrefSize(480, 320);
 
@@ -45,7 +47,7 @@ public class TextFilterMenuItem extends MenuItem {
 				dialog.setResultConverter(dialogButton -> {
 					if (dialogButton == saveButton) {
 						LinkedList<TextFilter> values = new LinkedList<TextFilter>();
-						values.addAll(0, textFiltersPanel.getTextFilters());
+						values.addAll(0, textFiltersPanel.getFilters());
 						return values;
 					}
 					return null;

@@ -1,4 +1,4 @@
-package com.jealcazars.jfxtail.control.textfilter;
+package com.jealcazars.jfxtail.control.filter.text;
 
 import java.util.LinkedList;
 import java.util.logging.Logger;

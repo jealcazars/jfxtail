@@ -13,7 +13,7 @@
 	type="javafx.scene.layout.BorderPane" fx:id="root">
 	<center>
 		<VBox>
-			<TableView fx:id="textFiltersTable">
+			<TableView fx:id="table">
 				<columns>
 					<TableColumn text="Filter">
 						<cellValueFactory>
@@ -27,7 +27,6 @@
 					</TableColumn>
 				</columns>
 			</TableView>
-			<Button text="Delete" onAction="#removeTextFilterFromTable"></Button>
 		</VBox>
 
 	</center>
@@ -36,7 +35,7 @@
 			<TextField GridPane.columnIndex="0" GridPane.rowIndex="1"
 				fx:id="token" />
 			<ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1"
-				fx:id="type">
+				fx:id="combo">
 				<items>
 					<FXCollections fx:factory="observableArrayList">
 						<String fx:value="Include" />
@@ -48,7 +47,9 @@
 				</value>
 			</ComboBox>
 			<Button text="Add" GridPane.columnIndex="3"
-				GridPane.rowIndex="1" onAction="#addTextFilterToTable"></Button>
+				GridPane.rowIndex="1" onAction="#addFilterToTable"></Button>
+			<Button text="Delete" GridPane.columnIndex="4"
+				GridPane.rowIndex="1" onAction="#removeFilterFromTable"></Button>
 		</GridPane>
 	</bottom>
 

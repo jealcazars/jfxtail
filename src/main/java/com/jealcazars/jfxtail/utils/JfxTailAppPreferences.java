@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import com.jealcazars.jfxtail.JfxTailApp;
-import com.jealcazars.jfxtail.control.highlight.HighlightFilter;
-import com.jealcazars.jfxtail.control.textfilter.TextFilter;
+import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilter;
+import com.jealcazars.jfxtail.control.filter.text.TextFilter;
 
 public class JfxTailAppPreferences {
 

@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import com.jealcazars.jfxtail.control.highlight.HighlightFilter;
-import com.jealcazars.jfxtail.control.highlight.HighlightFilterPanel;
+import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilter;
+import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilterPanel;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
@@ -44,7 +44,7 @@ public class HighlightMenuItem extends MenuItem {
 				dialog.setResultConverter(dialogButton -> {
 					if (dialogButton == saveButton) {
 						LinkedList<HighlightFilter> values = new LinkedList<HighlightFilter>();
-						values.addAll(0, highlightFilterPanel.getHighlightFilters());
+						values.addAll(0, highlightFilterPanel.getFilters());
 						return values;
 					}
 					return null;

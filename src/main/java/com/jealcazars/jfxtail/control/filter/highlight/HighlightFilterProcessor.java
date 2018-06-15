@@ -1,4 +1,4 @@
-package com.jealcazars.jfxtail.control.highlight;
+package com.jealcazars.jfxtail.control.filter.highlight;
 
 import java.util.Collection;
 import java.util.Collections;

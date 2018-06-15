@@ -1,25 +1,17 @@
-package com.jealcazars.jfxtail.control.textfilter;
+package com.jealcazars.jfxtail.control.filter.text;
 
-public class TextFilter {
+import com.jealcazars.jfxtail.control.filter.Filter;
 
-	private String token;
+public class TextFilter extends Filter {
+
 	private String type;
 
 	public static final String TYPE_INCLUDE = "Include";
 	public static final String TYPE_EXCLUDE = "Exclude";
 
 	public TextFilter(String token, String type) {
-		super();
-		this.token = token;
+		super(token);
 		this.type = type;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	public String getType() {
@@ -32,7 +24,7 @@ public class TextFilter {
 
 	@Override
 	public String toString() {
-		return "TextFilter [token=" + token + ", type=" + type + "]";
+		return super.toString() + "TextFilter [type=" + type + "]";
 	}
 
 }

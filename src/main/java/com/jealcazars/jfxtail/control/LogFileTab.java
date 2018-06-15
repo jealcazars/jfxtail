@@ -13,8 +13,8 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import com.jealcazars.jfxtail.control.highlight.HighlightFilterProcessor;
-import com.jealcazars.jfxtail.control.textfilter.TextFilterProcessor;
+import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilterProcessor;
+import com.jealcazars.jfxtail.control.filter.text.TextFilterProcessor;
 import com.jealcazars.jfxtail.file.FileListener;
 
 import javafx.application.Platform;

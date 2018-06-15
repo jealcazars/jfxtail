@@ -34,6 +34,9 @@ public class FilterButton extends ToggleButton {
 				}
 			}
 		});
+	}
 
+	public boolean isActive() {
+		return active;
 	}
 }

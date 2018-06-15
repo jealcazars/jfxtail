@@ -36,8 +36,7 @@ public class TextFilterProcessor {
 		}
 
 		Matcher matcher = pattern.matcher(line);
-		boolean matches = matcher.matches();
-		LOG.fine("TextFilterProcessor matches :" + matches);
+		boolean matches = matcher.find();
 		return matches;
 	}
 }

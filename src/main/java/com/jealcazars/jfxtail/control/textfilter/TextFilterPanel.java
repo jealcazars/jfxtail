@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,9 @@ public class TextFilterPanel extends BorderPane {
 
 	@FXML
 	TextField token;
+
+	@FXML
+	ComboBox<String> type;
 
 	public TextFilterPanel() {
 		FXMLViewLoader.load(this, "TextFiltersPanel.xml");
@@ -36,7 +40,8 @@ public class TextFilterPanel extends BorderPane {
 	private void addTextFilterToTable(ActionEvent event) {
 		if (token.getText() != null && token.getText().trim().length() > 0) {
 			LOG.fine("addTextFilterToTable: " + token.getText());
-			textFiltersTable.getItems().add(new TextFilter(token.getText()));
+			textFiltersTable.getItems()
+					.add(new TextFilter(token.getText(), type.getSelectionModel().getSelectedItem()));
 		}
 	}
 

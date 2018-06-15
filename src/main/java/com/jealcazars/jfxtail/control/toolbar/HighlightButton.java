@@ -42,6 +42,9 @@ public class HighlightButton extends ToggleButton {
 				}
 			}
 		});
+	}
 
+	public boolean isActive() {
+		return active;
 	}
 }

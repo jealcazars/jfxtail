@@ -35,6 +35,7 @@ public class JfxTailAppPreferences {
 	private static final String TEXT_FILTERS_NUM = "TEXTFILTERS_NUM";
 	private static final String TEXT_FILTERS_PREFIX = "TEXTFILTERS_";
 	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
+	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
 	public static String getLastKnowFolder() {
 		return preferences.get(LAST_KNOWN_FOLDER, null);
@@ -117,7 +118,10 @@ public class JfxTailAppPreferences {
 		for (int i = 0; i < textfilters.size(); i++) {
 			textfilter = textfilters.get(i);
 			preferences.put(TEXT_FILTERS_TOKEN_PREFIX + i, textfilter.getToken());
+			preferences.put(TEXT_FILTERS_TYPE_PREFIX + i, textfilter.getType());
 			LOG.fine(TEXT_FILTERS_TOKEN_PREFIX + i + ": " + textfilter.getToken());
+			LOG.fine(TEXT_FILTERS_TYPE_PREFIX + i + ": " + textfilter.getType());
+
 		}
 	}
 
@@ -125,10 +129,9 @@ public class JfxTailAppPreferences {
 		LinkedList<TextFilter> textfilters = new LinkedList<TextFilter>();
 		int size = preferences.getInt(TEXT_FILTERS_NUM, 0);
 		if (size > 0) {
-			String token = null;
 			for (int i = 0; i < size; i++) {
-				token = preferences.get(TEXT_FILTERS_TOKEN_PREFIX + i, "");
-				textfilters.add(new TextFilter(token));
+				textfilters.add(new TextFilter(preferences.get(TEXT_FILTERS_TOKEN_PREFIX + i, ""),
+						preferences.get(TEXT_FILTERS_TYPE_PREFIX + i, "")));
 			}
 		}
 		LOG.fine("Text_Filters: " + textfilters);

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.textfilter.TextFilter;
 import com.jealcazars.jfxtail.control.textfilter.TextFilterPanel;
+import com.jealcazars.jfxtail.control.textfilter.TextFilterProcessor;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
@@ -53,6 +54,7 @@ public class TextFilterMenuItem extends MenuItem {
 				Optional<LinkedList<TextFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {
 					JfxTailAppPreferences.saveTextFilters(result);
+					TextFilterProcessor.reloadFilters();
 				});
 			}
 		});

@@ -10,6 +10,7 @@ import java.util.prefs.Preferences;
 
 import com.jealcazars.jfxtail.JfxTailApp;
 import com.jealcazars.jfxtail.control.highlight.HighlightFilter;
+import com.jealcazars.jfxtail.control.textfilter.TextFilter;
 
 public class JfxTailAppPreferences {
 
@@ -26,10 +27,14 @@ public class JfxTailAppPreferences {
 
 	public static final int LAST_OPENED_FILES_MAX_SIZE = 5;
 
-	private static final String HIGHLIGHTFILTERS_NUM = "HIGHLIGHTFILTERS_NUM";
-	private static final String HIGHLIGHTFILTERS_PREFIX = "HIGHLIGHTFILTERS_";
-	private static final String HIGHLIGHTFILTERS_TOKEN_PREFIX = HIGHLIGHTFILTERS_PREFIX + "TOKEN_";
-	private static final String HIGHLIGHTFILTERS_COLOR_PREFIX = HIGHLIGHTFILTERS_PREFIX + "COLOR_";
+	private static final String HIGHLIGHT_FILTERS_NUM = "HIGHLIGHTFILTERS_NUM";
+	private static final String HIGHLIGHT_FILTERS_PREFIX = "HIGHLIGHTFILTERS_";
+	private static final String HIGHLIGHT_FILTERS_TOKEN_PREFIX = HIGHLIGHT_FILTERS_PREFIX + "TOKEN_";
+	private static final String HIGHLIGHT_FILTERS_COLOR_PREFIX = HIGHLIGHT_FILTERS_PREFIX + "COLOR_";
+
+	private static final String TEXT_FILTERS_NUM = "TEXTFILTERS_NUM";
+	private static final String TEXT_FILTERS_PREFIX = "TEXTFILTERS_";
+	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
 
 	public static String getLastKnowFolder() {
 		return preferences.get(LAST_KNOWN_FOLDER, null);
@@ -76,26 +81,26 @@ public class JfxTailAppPreferences {
 	}
 
 	public static void saveHighlightFilters(LinkedList<HighlightFilter> highlightings) {
-		preferences.putInt(HIGHLIGHTFILTERS_NUM, highlightings.size());
-		LOG.fine(HIGHLIGHTFILTERS_NUM + ": " + highlightings.size());
+		preferences.putInt(HIGHLIGHT_FILTERS_NUM, highlightings.size());
+		LOG.fine(HIGHLIGHT_FILTERS_NUM + ": " + highlightings.size());
 		HighlightFilter highlighting = null;
 		for (int i = 0; i < highlightings.size(); i++) {
 			highlighting = highlightings.get(i);
-			preferences.put(HIGHLIGHTFILTERS_COLOR_PREFIX + i, highlighting.getColor());
-			preferences.put(HIGHLIGHTFILTERS_TOKEN_PREFIX + i, highlighting.getToken());
-			LOG.fine(HIGHLIGHTFILTERS_TOKEN_PREFIX + i + ": " + highlighting.getToken());
+			preferences.put(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, highlighting.getColor());
+			preferences.put(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, highlighting.getToken());
+			LOG.fine(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i + ": " + highlighting.getToken());
 		}
 	}
 
 	public static LinkedList<HighlightFilter> loadHighlightFilters() {
 		LinkedList<HighlightFilter> highlightings = new LinkedList<HighlightFilter>();
-		int size = preferences.getInt(HIGHLIGHTFILTERS_NUM, 0);
+		int size = preferences.getInt(HIGHLIGHT_FILTERS_NUM, 0);
 		if (size > 0) {
 			String color;
 			String token = null;
 			for (int i = 0; i < size; i++) {
-				color = preferences.get(HIGHLIGHTFILTERS_COLOR_PREFIX + i, "Yellow");
-				token = preferences.get(HIGHLIGHTFILTERS_TOKEN_PREFIX + i, "");
+				color = preferences.get(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, "Yellow");
+				token = preferences.get(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, "");
 				highlightings.add(new HighlightFilter(token, color));
 
 			}
@@ -104,4 +109,31 @@ public class JfxTailAppPreferences {
 
 		return highlightings;
 	}
+
+	public static void saveTextFilters(LinkedList<TextFilter> textfilters) {
+		preferences.putInt(TEXT_FILTERS_NUM, textfilters.size());
+		LOG.fine(TEXT_FILTERS_NUM + ": " + textfilters.size());
+		TextFilter textfilter = null;
+		for (int i = 0; i < textfilters.size(); i++) {
+			textfilter = textfilters.get(i);
+			preferences.put(TEXT_FILTERS_TOKEN_PREFIX + i, textfilter.getToken());
+			LOG.fine(TEXT_FILTERS_TOKEN_PREFIX + i + ": " + textfilter.getToken());
+		}
+	}
+
+	public static LinkedList<TextFilter> loadTextFilters() {
+		LinkedList<TextFilter> textfilters = new LinkedList<TextFilter>();
+		int size = preferences.getInt(TEXT_FILTERS_NUM, 0);
+		if (size > 0) {
+			String token = null;
+			for (int i = 0; i < size; i++) {
+				token = preferences.get(TEXT_FILTERS_TOKEN_PREFIX + i, "");
+				textfilters.add(new TextFilter(token));
+			}
+		}
+		LOG.fine("Text_Filters: " + textfilters);
+
+		return textfilters;
+	}
+
 }

@@ -14,6 +14,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
 import com.jealcazars.jfxtail.control.highlight.HighlightFilterProcessor;
+import com.jealcazars.jfxtail.control.textfilter.TextFilterProcessor;
 import com.jealcazars.jfxtail.file.FileListener;
 
 import javafx.application.Platform;
@@ -29,6 +30,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	File file;
 	FileListener fileListener;
 	private CodeArea codeArea = new CodeArea();
+	boolean filterActive = false;
+	boolean highlightActive = false;
 
 	private PropertyChangeSupport propertyChangeSupport;
 	VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
@@ -85,6 +88,22 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		HighlightFilterProcessor.cleanHighlighting(codeArea);
 	}
 
+	public boolean isHighlightActive() {
+		return highlightActive;
+	}
+
+	public void setHighlightActive(boolean highlightActive) {
+		this.highlightActive = highlightActive;
+	}
+
+	public boolean isFilterActive() {
+		return filterActive;
+	}
+
+	public void setFilterActive(boolean filterActive) {
+		this.filterActive = filterActive;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (FileListener.FILE_WAS_MODIFIED.equals(evt.getPropertyName())) {
@@ -119,13 +138,18 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 					}
 
 					for (int i = 0; i < newLines.length; i++) {
-						codeArea.appendText(newLines[i]);
+
+						if (isFilterActive()) {
+							if (TextFilterProcessor.lineMustBeAppended(newLines[i])) {
+								codeArea.appendText(newLines[i]);
+							}
+						} else {
+							codeArea.appendText(newLines[i]);
+						}
 					}
 
-					if ("false".equals(System.getProperty("CleanHighlights"))) {
+					if (isHighlightActive()) {
 						HighlightFilterProcessor.applyHighlighting(codeArea);
-					} else if ("true".equals(System.getProperty("CleanHighlights"))) {
-						HighlightFilterProcessor.cleanHighlighting(codeArea);
 					}
 
 					codeArea.scrollBy(new Point2D(0, 10000));

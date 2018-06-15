@@ -23,19 +23,16 @@ public class HighlightButton extends ToggleButton {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if (active) {
-					System.setProperty("CleanHighlights", "true");
-					LOG.fine("Highlights must be cleaned");
-				} else {
-					System.setProperty("CleanHighlights", "false");
-				}
-
 				active = !active;
+
+				LOG.fine("Highlight Filter active: " + active);
 
 				TabPane tabPane = (TabPane) ((Node) event.getSource()).getScene().lookup("#logFilesTabPane");
 				ObservableList<Tab> tabs = tabPane.getTabs();
 				for (Iterator<Tab> iterator = tabs.iterator(); iterator.hasNext();) {
 					LogFileTab tab = (LogFileTab) iterator.next();
+
+					tab.setHighlightActive(active);
 
 					if (active) {
 						tab.applyHighlightFilter();
@@ -43,9 +40,6 @@ public class HighlightButton extends ToggleButton {
 						tab.cleanHighlightFilter();
 					}
 				}
-
-				LOG.fine("HighlightButton -- Not implemented yet");
-				System.setProperty("HighlightButton", String.valueOf(active));
 			}
 		});
 

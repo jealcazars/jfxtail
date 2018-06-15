@@ -23,7 +23,7 @@
 			<Menu text="Tools">
 				<items>
 					<HighlightMenuItem text="Highlight Filter" />
-					<MenuItem text="Include Filter" />
+					<TextFilterMenuItem text="Include Text Filter" />
 				</items>
 			</Menu>
 		</menus>

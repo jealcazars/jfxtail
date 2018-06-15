@@ -27,6 +27,7 @@ public class HighlightFilterProcessor {
 	private static StyleSpans<Collection<String>> computeHighlighting(String text,
 			LinkedList<HighlightFilter> highlightFilters) {
 
+		// TODO load statically
 		StringBuilder patternSb = new StringBuilder();
 
 		for (int i = 0; i < highlightFilters.size(); i++) {

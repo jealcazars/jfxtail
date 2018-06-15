@@ -16,4 +16,9 @@ public class Filter {
 		this.token = token;
 	}
 
+	@Override
+	public String toString() {
+		return "Filter [token=" + token + "]";
+	}
+
 }

@@ -23,4 +23,10 @@ public class HighlightFilterPanel extends AbstractFilterPanel<HighlightFilter> {
 		return FXCollections.observableArrayList(JfxTailAppPreferences.loadHighlightFilters());
 	}
 
+	@Override
+	public void loadFilterToEdit(HighlightFilter filter) {
+		getToken().setText(filter.getToken());
+		getCombo().getSelectionModel().select(filter.getColor());
+	}
+
 }

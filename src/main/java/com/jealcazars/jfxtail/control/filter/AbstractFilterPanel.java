@@ -31,6 +31,10 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 
 		table.setItems(tableData);
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+			LOG.fine("newSelection: " + newSelection);
+			loadFilterToEdit(newSelection);
+		});
 	}
 
 	@FXML
@@ -71,5 +75,7 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 	public abstract String getXmlConfig();
 
 	public abstract ObservableList<T> loadFilters();
+
+	public abstract void loadFilterToEdit(T filter);
 
 }

@@ -23,4 +23,10 @@ public class TextFilterPanel extends AbstractFilterPanel<TextFilter> {
 		return new TextFilter(getToken().getText(), getCombo().getSelectionModel().getSelectedItem());
 	}
 
+	@Override
+	public void loadFilterToEdit(TextFilter filter) {
+		getToken().setText(filter.getToken());
+		getCombo().getSelectionModel().select(filter.getType());
+	}
+
 }

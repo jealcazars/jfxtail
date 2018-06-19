@@ -27,6 +27,8 @@ public class TextFilterProcessor {
 		}
 
 		LOG.fine("TextFilterProcessor patternSb: " + patternSb);
+		
+		pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 	}
 
 	public static boolean lineMustBeAppended(String line) {

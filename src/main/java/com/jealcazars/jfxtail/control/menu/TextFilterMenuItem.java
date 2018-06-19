@@ -24,7 +24,7 @@ public class TextFilterMenuItem extends MenuItem {
 			public void handle(ActionEvent event) {
 				LOG.fine("MenuHighlight");
 
-				FilterDialog<TextFilter> dialog = new FilterDialog<>(new TextFilterPanel());
+				FilterDialog<TextFilter> dialog = new FilterDialog<>("Text Filters", new TextFilterPanel());
 
 				Optional<LinkedList<TextFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {

@@ -22,6 +22,10 @@ public class TextFilter extends Filter {
 		this.type = type;
 	}
 
+	public boolean isIncludeType() {
+		return TYPE_INCLUDE.equals(getType());
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + "TextFilter [type=" + type + "]";

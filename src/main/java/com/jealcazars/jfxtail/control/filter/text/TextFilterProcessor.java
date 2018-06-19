@@ -10,34 +10,30 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 public class TextFilterProcessor {
 	private static final Logger LOG = Logger.getLogger(JfxTailAppPreferences.class.getName());
 
-	private static Pattern pattern;
+	private static LinkedList<TextFilter> textFilters;
 
 	public static void reloadFilters() {
-		LinkedList<TextFilter> textFilters = JfxTailAppPreferences.loadTextFilters();
-
-		StringBuilder patternSb = new StringBuilder();
-
-		for (int i = 0; i < textFilters.size(); i++) {
-			if (textFilters.get(i).isEnabled()) {
-				if (patternSb.length() > 0) {
-					patternSb.append("|");
-				}
-				patternSb.append("(?<filter").append(i).append(">").append(textFilters.get(i).getToken()).append(")");
-			}
-		}
-
-		LOG.fine("TextFilterProcessor patternSb: " + patternSb);
-		
-		pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+		textFilters = JfxTailAppPreferences.loadTextFilters();
 	}
 
 	public static boolean lineMustBeAppended(String line) {
-		if (pattern == null) {
+		if (textFilters == null) {
 			reloadFilters();
 		}
 
-		Matcher matcher = pattern.matcher(line);
-		boolean matches = matcher.find();
-		return matches;
+		for (int i = 0; i < textFilters.size(); i++) {
+			if (textFilters.get(i).isEnabled()) {
+				Matcher matcher = Pattern
+						.compile(textFilters.get(i).getToken(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)
+						.matcher(line);
+
+				if (matcher.find()) {
+					LOG.fine("filterMatched: " + textFilters.get(i));
+					return textFilters.get(i).isIncludeType();
+				}
+			}
+		}
+
+		return false;
 	}
 }

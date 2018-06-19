@@ -2,17 +2,15 @@ package com.jealcazars.jfxtail.control.filter;
 
 import java.util.LinkedList;
 
-import com.jealcazars.jfxtail.control.filter.text.TextFilter;
-
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 
-public class FilterDialog<R> extends Dialog {
+public class FilterDialog<T> extends Dialog<LinkedList<T>> {
 
-	AbstractFilterPanel filtersPanel;
+	AbstractFilterPanel<T> filtersPanel;
 
-	public FilterDialog(AbstractFilterPanel panel) {
+	public FilterDialog(AbstractFilterPanel<T> panel) {
 		this.filtersPanel = panel;
 		getDialogPane().setContent(filtersPanel);
 		getDialogPane().setPrefSize(600, 400);
@@ -30,7 +28,7 @@ public class FilterDialog<R> extends Dialog {
 
 		setResultConverter(dialogButton -> {
 			if (dialogButton == saveButton) {
-				LinkedList<TextFilter> values = new LinkedList<TextFilter>();
+				LinkedList<T> values = new LinkedList<T>();
 				values.addAll(0, filtersPanel.getFilters());
 				return values;
 			}

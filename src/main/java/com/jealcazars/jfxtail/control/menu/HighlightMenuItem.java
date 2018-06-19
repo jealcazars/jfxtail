@@ -23,12 +23,13 @@ public class HighlightMenuItem extends MenuItem {
 			public void handle(ActionEvent event) {
 				LOG.fine("MenuHighlight");
 
-				FilterDialog<LinkedList<HighlightFilter>> dialog = new FilterDialog(new HighlightFilterPanel());
+				FilterDialog<HighlightFilter> dialog = new FilterDialog<>(new HighlightFilterPanel());
 
 				Optional<LinkedList<HighlightFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {
 					JfxTailAppPreferences.saveHighlightFilters(result);
 				});
+
 			}
 		});
 	}

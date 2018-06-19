@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import com.jealcazars.jfxtail.control.filter.FilterDialog;
 import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilter;
 import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilterPanel;
+import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilterProcessor;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
@@ -28,8 +29,8 @@ public class HighlightMenuItem extends MenuItem {
 				Optional<LinkedList<HighlightFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {
 					JfxTailAppPreferences.saveHighlightFilters(result);
+					HighlightFilterProcessor.reloadFilters();
 				});
-
 			}
 		});
 	}

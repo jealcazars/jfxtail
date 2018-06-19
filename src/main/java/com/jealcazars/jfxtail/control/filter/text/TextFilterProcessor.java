@@ -18,16 +18,15 @@ public class TextFilterProcessor {
 		StringBuilder patternSb = new StringBuilder();
 
 		for (int i = 0; i < textFilters.size(); i++) {
-			if (patternSb.length() > 0) {
-				patternSb.append("|");
+			if (textFilters.get(i).isEnabled()) {
+				if (patternSb.length() > 0) {
+					patternSb.append("|");
+				}
+				patternSb.append("(?<filter").append(i).append(">").append(textFilters.get(i).getToken()).append(")");
 			}
-			patternSb.append("(?<filter").append(i).append(">").append(textFilters.get(i).getToken()).append(")");
 		}
 
 		LOG.fine("TextFilterProcessor patternSb: " + patternSb);
-
-		pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
 	}
 
 	public static boolean lineMustBeAppended(String line) {

@@ -16,31 +16,47 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 public class HighlightFilterProcessor {
 	private static final Logger LOG = Logger.getLogger(HighlightFilterProcessor.class.getName());
 
-	public static void applyHighlighting(StyleClassedTextArea textarea) {
+	private static Pattern pattern;
+	private static LinkedList<HighlightFilter> highlightFilters;
 
-		LinkedList<HighlightFilter> highlightFilters = JfxTailAppPreferences.loadHighlightFilters();
-		if (!highlightFilters.isEmpty()) {
-			applyHighlighting(textarea, computeHighlighting(textarea.getText(), highlightFilters));
+	private static boolean activeHighlightFilters;
+
+	public static void reloadFilters() {
+		highlightFilters = JfxTailAppPreferences.loadHighlightFilters();
+
+		StringBuilder patternSb = new StringBuilder();
+		activeHighlightFilters = false;
+
+		for (int i = 0; i < highlightFilters.size(); i++) {
+			if (highlightFilters.get(i).isEnabled()) {
+				if (activeHighlightFilters) {
+					patternSb.append("|");
+				}
+				patternSb.append("(?<filter").append(i).append(">").append(highlightFilters.get(i).getToken())
+						.append(")");
+				activeHighlightFilters = true;
+			}
+		}
+
+		LOG.fine("HighlightFilterProcessor patternSb: " + patternSb);
+
+		pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+
+	}
+
+	public static void applyHighlighting(StyleClassedTextArea textarea) {
+		if (pattern == null) {
+			reloadFilters();
+		}
+
+		if (activeHighlightFilters) {
+			applyHighlighting(textarea, computeHighlighting(textarea.getText()));
+		} else {
+			LOG.fine("Theres no highlight filters to apply");
 		}
 	}
 
-	private static StyleSpans<Collection<String>> computeHighlighting(String text,
-			LinkedList<HighlightFilter> highlightFilters) {
-
-		// TODO load statically
-		StringBuilder patternSb = new StringBuilder();
-
-		for (int i = 0; i < highlightFilters.size(); i++) {
-			if (patternSb.length() > 0) {
-				patternSb.append("|");
-			}
-			patternSb.append("(?<filter").append(i).append(">").append(highlightFilters.get(i).getToken()).append(")");
-		}
-
-		LOG.fine("patternSb: " + patternSb);
-
-		Pattern pattern = Pattern.compile(patternSb.toString(), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-
+	private static StyleSpans<Collection<String>> computeHighlighting(String text) {
 		Matcher matcher = pattern.matcher(text);
 
 		int lastKwEnd = 0;

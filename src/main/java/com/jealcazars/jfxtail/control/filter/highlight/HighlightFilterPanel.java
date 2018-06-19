@@ -15,7 +15,8 @@ public class HighlightFilterPanel extends AbstractFilterPanel<HighlightFilter> {
 
 	@Override
 	public HighlightFilter getFiltertoSave() {
-		return new HighlightFilter(getToken().getText(), getCombo().getSelectionModel().getSelectedItem());
+		return new HighlightFilter(getEnabled().isSelected(), getToken().getText(),
+				getCombo().getSelectionModel().getSelectedItem());
 	}
 
 	@Override
@@ -25,6 +26,7 @@ public class HighlightFilterPanel extends AbstractFilterPanel<HighlightFilter> {
 
 	@Override
 	public void loadFilterToEdit(HighlightFilter filter) {
+		getEnabled().setSelected(filter.isEnabled());
 		getToken().setText(filter.getToken());
 		getCombo().getSelectionModel().select(filter.getColor());
 	}

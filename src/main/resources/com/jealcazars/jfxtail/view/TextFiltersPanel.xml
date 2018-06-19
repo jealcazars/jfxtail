@@ -15,6 +15,11 @@
 		<VBox>
 			<TableView fx:id="table">
 				<columns>
+					<TableColumn text="Enabled">
+						<cellValueFactory>
+							<PropertyValueFactory property="enabled" />
+						</cellValueFactory>
+					</TableColumn>
 					<TableColumn text="Filter">
 						<cellValueFactory>
 							<PropertyValueFactory property="token" />
@@ -32,9 +37,11 @@
 	</center>
 	<bottom>
 		<GridPane hgap="10" vgap="10">
-			<TextField GridPane.columnIndex="0" GridPane.rowIndex="1"
+			<CheckBox GridPane.columnIndex="1" GridPane.rowIndex="1"
+				fx:id="enabled" text="Enabled" />		
+			<TextField GridPane.columnIndex="2" GridPane.rowIndex="1"
 				fx:id="token" />
-			<ComboBox GridPane.columnIndex="1" GridPane.rowIndex="1"
+			<ComboBox GridPane.columnIndex="3" GridPane.rowIndex="1"
 				fx:id="combo">
 				<items>
 					<FXCollections fx:factory="observableArrayList">
@@ -46,10 +53,14 @@
 					<String fx:value="Include" />
 				</value>
 			</ComboBox>
-			<Button text="Add" GridPane.columnIndex="3"
-				GridPane.rowIndex="1" onAction="#addFilterToTable"></Button>
-			<Button text="Delete" GridPane.columnIndex="4"
-				GridPane.rowIndex="1" onAction="#removeFilterFromTable"></Button>
+			<Button text="Add" GridPane.columnIndex="4"
+				GridPane.rowIndex="1" onAction="#addFilterToTable" />
+			<Button text="Save" fx:id="saveButton"
+				GridPane.columnIndex="5" GridPane.rowIndex="1"
+				onAction="#saveFilter" disable="true" />
+			<Button text="Delete" fx:id="deleteButton"
+				GridPane.columnIndex="6" GridPane.rowIndex="1"
+				onAction="#removeFilterFromTable" disable="true" />
 		</GridPane>
 	</bottom>
 

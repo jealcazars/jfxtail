@@ -1,11 +1,22 @@
 package com.jealcazars.jfxtail.control.filter;
 
 public class Filter {
+
+	private boolean enabled;
 	private String token;
 
-	public Filter(String token) {
+	public Filter(boolean enabled, String token) {
 		super();
+		this.enabled = enabled;
 		this.token = token;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public String getToken() {
@@ -18,7 +29,7 @@ public class Filter {
 
 	@Override
 	public String toString() {
-		return "Filter [token=" + token + "]";
+		return "Filter [enabled=" + enabled + ", token=" + token + "]";
 	}
 
 }

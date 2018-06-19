@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.jealcazars.jfxtail.control.filter.FilterDialog;
 import com.jealcazars.jfxtail.control.filter.text.TextFilter;
 import com.jealcazars.jfxtail.control.filter.text.TextFilterPanel;
 import com.jealcazars.jfxtail.control.filter.text.TextFilterProcessor;
@@ -11,9 +12,6 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.MenuItem;
 
 public class TextFilterMenuItem extends MenuItem {
@@ -26,32 +24,7 @@ public class TextFilterMenuItem extends MenuItem {
 			public void handle(ActionEvent event) {
 				LOG.fine("MenuHighlight");
 
-				Dialog<LinkedList<TextFilter>> dialog = new Dialog<>();
-				// TextFilterPanel textFiltersPanel = new TextFilterPanel();
-				TextFilterPanel textFiltersPanel = new TextFilterPanel();
-
-				dialog.getDialogPane().setContent(textFiltersPanel);
-				dialog.getDialogPane().setPrefSize(480, 320);
-
-				textFiltersPanel.prefHeightProperty().bind(dialog.getDialogPane().getScene().heightProperty());
-				textFiltersPanel.prefWidthProperty().bind(dialog.getDialogPane().getScene().widthProperty());
-
-				dialog.setResizable(true);
-
-				dialog.setTitle("Text Filters");
-				dialog.setHeaderText(null);
-
-				ButtonType saveButton = new ButtonType("Save", ButtonData.OK_DONE);
-				dialog.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
-
-				dialog.setResultConverter(dialogButton -> {
-					if (dialogButton == saveButton) {
-						LinkedList<TextFilter> values = new LinkedList<TextFilter>();
-						values.addAll(0, textFiltersPanel.getFilters());
-						return values;
-					}
-					return null;
-				});
+				FilterDialog<LinkedList<TextFilter>> dialog = new FilterDialog(new TextFilterPanel());
 
 				Optional<LinkedList<TextFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {

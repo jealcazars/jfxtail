@@ -9,8 +9,8 @@ public class TextFilter extends Filter {
 	public static final String TYPE_INCLUDE = "Include";
 	public static final String TYPE_EXCLUDE = "Exclude";
 
-	public TextFilter(String token, String type) {
-		super(token);
+	public TextFilter(boolean enabled, String token, String type) {
+		super(enabled, token);
 		this.type = type;
 	}
 

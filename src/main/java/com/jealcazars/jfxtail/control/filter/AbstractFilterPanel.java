@@ -7,6 +7,8 @@ import com.jealcazars.jfxtail.view.FXMLViewLoader;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -19,10 +21,19 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 	TableView<T> table;
 
 	@FXML
+	CheckBox enabled;
+
+	@FXML
 	TextField token;
 
 	@FXML
 	ComboBox<String> combo;
+
+	@FXML
+	Button saveButton;
+
+	@FXML
+	Button deleteButton;
 
 	public AbstractFilterPanel() {
 		FXMLViewLoader.load(this, getXmlConfig());
@@ -33,7 +44,15 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			LOG.fine("newSelection: " + newSelection);
-			loadFilterToEdit(newSelection);
+			if (newSelection != null) {
+				loadFilterToEdit(newSelection);
+
+				deleteButton.setDisable(false);
+				saveButton.setDisable(false);
+			} else {
+				deleteButton.setDisable(true);
+				saveButton.setDisable(true);
+			}
 		});
 	}
 
@@ -42,6 +61,7 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		if (token.getText() != null && token.getText().trim().length() > 0) {
 			LOG.fine("addTextFilterToTable: " + token.getText());
 			table.getItems().add(getFiltertoSave());
+			token.setText(null);
 		}
 	}
 
@@ -50,7 +70,17 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		int index = table.getSelectionModel().getSelectedIndex();
 		LOG.fine("Removing: " + index);
 		if (index >= 0) {
+			token.setText(null);
 			table.getItems().remove(index);
+		}
+	}
+
+	@FXML
+	private void saveFilter(ActionEvent event) {
+		int index = table.getSelectionModel().getSelectedIndex();
+		if (token.getText() != null && token.getText().trim().length() > 0) {
+			LOG.fine("addTextFilterToTable: " + token.getText());
+			table.getItems().set(index, getFiltertoSave());
 		}
 	}
 
@@ -68,6 +98,10 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 
 	public ComboBox<String> getCombo() {
 		return combo;
+	}
+
+	public CheckBox getEnabled() {
+		return enabled;
 	}
 
 	public abstract T getFiltertoSave();

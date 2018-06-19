@@ -1,21 +1,13 @@
 package com.jealcazars.jfxtail.control.filter.highlight;
 
-public class HighlightFilter {
-	private String token;
+import com.jealcazars.jfxtail.control.filter.Filter;
+
+public class HighlightFilter extends Filter {
 	String color;
 
-	public HighlightFilter(String token, String color) {
-		super();
-		this.token = token;
+	public HighlightFilter(boolean enabled, String token, String color) {
+		super(enabled, token);
 		this.color = color;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
 	}
 
 	public String getColor() {
@@ -28,7 +20,6 @@ public class HighlightFilter {
 
 	@Override
 	public String toString() {
-		return "HighlightFilter [token=" + token + ", color=" + color + "]";
+		return super.toString() + "HighlightFilter [color=" + color + "]";
 	}
-
 }

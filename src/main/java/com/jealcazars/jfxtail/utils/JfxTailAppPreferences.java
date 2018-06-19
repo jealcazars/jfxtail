@@ -29,11 +29,13 @@ public class JfxTailAppPreferences {
 
 	private static final String HIGHLIGHT_FILTERS_NUM = "HIGHLIGHTFILTERS_NUM";
 	private static final String HIGHLIGHT_FILTERS_PREFIX = "HIGHLIGHTFILTERS_";
+	private static final String HIGHLIGHT_FILTERS_ENABLED_PREFIX = HIGHLIGHT_FILTERS_PREFIX + "ENABLED_";
 	private static final String HIGHLIGHT_FILTERS_TOKEN_PREFIX = HIGHLIGHT_FILTERS_PREFIX + "TOKEN_";
 	private static final String HIGHLIGHT_FILTERS_COLOR_PREFIX = HIGHLIGHT_FILTERS_PREFIX + "COLOR_";
 
 	private static final String TEXT_FILTERS_NUM = "TEXTFILTERS_NUM";
 	private static final String TEXT_FILTERS_PREFIX = "TEXTFILTERS_";
+	private static final String TEXT_FILTERS_ENABLED_PREFIX = TEXT_FILTERS_PREFIX + "ENABLED_";
 	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
 	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
@@ -87,6 +89,7 @@ public class JfxTailAppPreferences {
 		HighlightFilter highlighting = null;
 		for (int i = 0; i < highlightings.size(); i++) {
 			highlighting = highlightings.get(i);
+			preferences.put(HIGHLIGHT_FILTERS_ENABLED_PREFIX + i, String.valueOf(highlighting.isEnabled()));
 			preferences.put(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, highlighting.getColor());
 			preferences.put(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, highlighting.getToken());
 			LOG.fine(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i + ": " + highlighting.getToken());
@@ -97,12 +100,11 @@ public class JfxTailAppPreferences {
 		LinkedList<HighlightFilter> highlightings = new LinkedList<HighlightFilter>();
 		int size = preferences.getInt(HIGHLIGHT_FILTERS_NUM, 0);
 		if (size > 0) {
-			String color;
-			String token = null;
 			for (int i = 0; i < size; i++) {
-				color = preferences.get(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, "Yellow");
-				token = preferences.get(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, "");
-				highlightings.add(new HighlightFilter(token, color));
+				highlightings.add(
+						new HighlightFilter("true".equals(preferences.get(HIGHLIGHT_FILTERS_ENABLED_PREFIX + i, "")),
+								preferences.get(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, ""),
+								preferences.get(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, "Yellow")));
 
 			}
 		}
@@ -117,6 +119,7 @@ public class JfxTailAppPreferences {
 		TextFilter textfilter = null;
 		for (int i = 0; i < textfilters.size(); i++) {
 			textfilter = textfilters.get(i);
+			preferences.put(TEXT_FILTERS_ENABLED_PREFIX + i, String.valueOf(textfilter.isEnabled()));
 			preferences.put(TEXT_FILTERS_TOKEN_PREFIX + i, textfilter.getToken());
 			preferences.put(TEXT_FILTERS_TYPE_PREFIX + i, textfilter.getType());
 			LOG.fine(TEXT_FILTERS_TOKEN_PREFIX + i + ": " + textfilter.getToken());
@@ -130,7 +133,8 @@ public class JfxTailAppPreferences {
 		int size = preferences.getInt(TEXT_FILTERS_NUM, 0);
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
-				textfilters.add(new TextFilter(preferences.get(TEXT_FILTERS_TOKEN_PREFIX + i, ""),
+				textfilters.add(new TextFilter("true".equals(preferences.get(TEXT_FILTERS_ENABLED_PREFIX + i, "")),
+						preferences.get(TEXT_FILTERS_TOKEN_PREFIX + i, ""),
 						preferences.get(TEXT_FILTERS_TYPE_PREFIX + i, "")));
 			}
 		}

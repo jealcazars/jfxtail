@@ -20,11 +20,13 @@ public class TextFilterPanel extends AbstractFilterPanel<TextFilter> {
 
 	@Override
 	public TextFilter getFiltertoSave() {
-		return new TextFilter(getToken().getText(), getCombo().getSelectionModel().getSelectedItem());
+		return new TextFilter(getEnabled().isSelected(), getToken().getText(),
+				getCombo().getSelectionModel().getSelectedItem());
 	}
 
 	@Override
 	public void loadFilterToEdit(TextFilter filter) {
+		getEnabled().setSelected(filter.isEnabled());
 		getToken().setText(filter.getToken());
 		getCombo().getSelectionModel().select(filter.getType());
 	}

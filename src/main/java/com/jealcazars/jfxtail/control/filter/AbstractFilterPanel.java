@@ -41,7 +41,7 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		ObservableList<T> tableData = loadFilters();
 
 		table.setItems(tableData);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			LOG.fine("newSelection: " + newSelection);
 			if (newSelection != null) {

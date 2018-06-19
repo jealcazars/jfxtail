@@ -15,17 +15,19 @@
 		<VBox>
 			<TableView fx:id="table">
 				<columns>
-					<TableColumn text="Enabled">
+					<TableColumn text="Enabled"
+						prefWidth="${table.width*0.1}">
 						<cellValueFactory>
 							<PropertyValueFactory property="enabled" />
 						</cellValueFactory>
 					</TableColumn>
-					<TableColumn text="Filter">
+					<TableColumn text="Filter"
+						prefWidth="${table.width*0.7}">
 						<cellValueFactory>
 							<PropertyValueFactory property="token" />
 						</cellValueFactory>
 					</TableColumn>
-					<TableColumn text="Type">
+					<TableColumn text="Type" prefWidth="${table.width*0.2}">
 						<cellValueFactory>
 							<PropertyValueFactory property="type" />
 						</cellValueFactory>
@@ -38,9 +40,9 @@
 	<bottom>
 		<GridPane hgap="10" vgap="10">
 			<CheckBox GridPane.columnIndex="1" GridPane.rowIndex="1"
-				fx:id="enabled" text="Enabled" />		
+				fx:id="enabled" text="Enabled" />
 			<TextField GridPane.columnIndex="2" GridPane.rowIndex="1"
-				fx:id="token" />
+				fx:id="token" prefWidth="240" />
 			<ComboBox GridPane.columnIndex="3" GridPane.rowIndex="1"
 				fx:id="combo">
 				<items>

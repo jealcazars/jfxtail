@@ -10,7 +10,7 @@ public class FilterDialog<T> extends Dialog<LinkedList<T>> {
 
 	AbstractFilterPanel<T> filtersPanel;
 
-	public FilterDialog(AbstractFilterPanel<T> panel) {
+	public FilterDialog(String title, AbstractFilterPanel<T> panel) {
 		this.filtersPanel = panel;
 		getDialogPane().setContent(filtersPanel);
 		getDialogPane().setPrefSize(600, 400);
@@ -20,7 +20,7 @@ public class FilterDialog<T> extends Dialog<LinkedList<T>> {
 
 		setResizable(true);
 
-		setTitle("Text Filters");
+		setTitle(title);
 		setHeaderText(null);
 
 		ButtonType saveButton = new ButtonType("Save", ButtonData.OK_DONE);

@@ -44,7 +44,7 @@
 				<CheckBox GridPane.columnIndex="1" GridPane.rowIndex="1"
 					fx:id="enabled" text="Enabled" />
 				<TextField GridPane.columnIndex="2" GridPane.rowIndex="1"
-					fx:id="token" prefWidth="240" />
+					fx:id="token" prefWidth="200" />
 				<ComboBox GridPane.columnIndex="3" GridPane.rowIndex="1"
 					fx:id="combo">
 					<items>
@@ -60,7 +60,7 @@
 				</ComboBox>
 				<Button text="Add" GridPane.columnIndex="4"
 					GridPane.rowIndex="1" onAction="#addFilterToTable" />
-				<Button text="Save" fx:id="saveButton"
+				<Button text="Modify" fx:id="saveButton"
 					GridPane.columnIndex="5" GridPane.rowIndex="1"
 					onAction="#saveFilter" disable="true" />
 				<Button text="Delete" fx:id="deleteButton"

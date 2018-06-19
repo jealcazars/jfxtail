@@ -24,7 +24,8 @@ public class HighlightMenuItem extends MenuItem {
 			public void handle(ActionEvent event) {
 				LOG.fine("MenuHighlight");
 
-				FilterDialog<HighlightFilter> dialog = new FilterDialog<>(new HighlightFilterPanel());
+				FilterDialog<HighlightFilter> dialog = new FilterDialog<>("Highlight filters",
+						new HighlightFilterPanel());
 
 				Optional<LinkedList<HighlightFilter>> optional = dialog.showAndWait();
 				optional.ifPresent(result -> {

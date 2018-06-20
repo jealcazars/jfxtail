@@ -14,13 +14,12 @@ public class RefreshRateMenuItem extends AbstractIntDialogMenuItem {
 	@Override
 	public void save(Integer result) {
 		LOG.fine("RefreshRateMenuItem new value:" + result);
-		JfxTailAppPreferences.setInt(JfxTailAppPreferences.REFRESH_RATE_KEY, result);
-		JfxTailAppPreferences.REFRESH_RATE = result;
+		JfxTailAppPreferences.setRefreshRate(result);
 	}
 
 	@Override
 	public Integer getDefaultValue() {
-		return JfxTailAppPreferences.REFRESH_RATE;
+		return JfxTailAppPreferences.getRefreshRate();
 	}
 
 }

@@ -137,9 +137,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
 			int bytesToRead = newLength - oldLength;
 
-			if (bytesToRead > JfxTailAppPreferences.BUFFER_SIZE) {
+			if (bytesToRead > JfxTailAppPreferences.getBufferSize()) {
 				LOG.fine("bytesToRead bigger than buffer size, some bytes will be ignored");
-				bytesToRead = JfxTailAppPreferences.BUFFER_SIZE;
+				bytesToRead = JfxTailAppPreferences.getBufferSize();
 			}
 
 			byte fileContentAsBytes[] = new byte[bytesToRead];
@@ -163,7 +163,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 							codeArea.appendText(newLines[i]);
 							linesAlreadyAdded++;
 
-							if (linesAlreadyAdded > JfxTailAppPreferences.MAX_LINES) {
+							if (linesAlreadyAdded > JfxTailAppPreferences.maxLines) {
 								codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
 							}
 						}

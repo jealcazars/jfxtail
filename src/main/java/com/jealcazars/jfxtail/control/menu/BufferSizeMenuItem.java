@@ -14,13 +14,12 @@ public class BufferSizeMenuItem extends AbstractIntDialogMenuItem {
 	@Override
 	public void save(Integer result) {
 		LOG.fine("BufferSizeMenuItem new value:" + result);
-		JfxTailAppPreferences.setInt(JfxTailAppPreferences.BUFFER_SIZE_KEY, result);
-		JfxTailAppPreferences.BUFFER_SIZE = result;
+		JfxTailAppPreferences.setBufferSize(result);
 	}
 
 	@Override
 	public Integer getDefaultValue() {
-		return JfxTailAppPreferences.BUFFER_SIZE;
+		return JfxTailAppPreferences.getBufferSize();
 	}
 
 }

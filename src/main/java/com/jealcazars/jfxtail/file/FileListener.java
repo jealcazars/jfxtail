@@ -53,7 +53,7 @@ public class FileListener implements Runnable {
 					lastLength = file.length();
 				}
 
-				Thread.sleep(JfxTailAppPreferences.REFRESH_RATE);
+				Thread.sleep(JfxTailAppPreferences.getRefreshRate());
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, "Error", e);
 			}

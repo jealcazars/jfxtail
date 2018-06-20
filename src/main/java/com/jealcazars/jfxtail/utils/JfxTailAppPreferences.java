@@ -39,37 +39,46 @@ public class JfxTailAppPreferences {
 	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
 	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
-	public static int MAX_LINES;
+	public static int maxLines;
 	public static final String MAX_LINES_KEY = "MAX_LINES";
 
-	public static int REFRESH_RATE;
-	public static final String REFRESH_RATE_KEY = "REFRESH_RATE";
+	private static int refreshRate;
+	private static final String REFRESH_RATE_KEY = "REFRESH_RATE";
 
-	public static int BUFFER_SIZE;
-	public static final String BUFFER_SIZE_KEY = "BUFFER_SIZE";
+	private static int bufferSize;
+	private static final String BUFFER_SIZE_KEY = "BUFFER_SIZE";
 
 	static {
-		MAX_LINES = getInt(MAX_LINES_KEY, 2000);
-		REFRESH_RATE = getInt(REFRESH_RATE_KEY, 200);
-		BUFFER_SIZE = getInt(BUFFER_SIZE_KEY, 10000000);
+		maxLines = preferences.getInt(MAX_LINES_KEY, 2000);
+		refreshRate = preferences.getInt(REFRESH_RATE_KEY, 200);
+		bufferSize = preferences.getInt(BUFFER_SIZE_KEY, 10000000);
 	}
 
-	public static void set(String key, String value) {
-		preferences.put(key, value);
-		LOG.fine("Saved " + key + " " + value);
+	public static int getMaxLines() {
+		return maxLines;
 	}
 
-	public static String get(String key, String defaultValue) {
-		return preferences.get(key, defaultValue);
+	public static void setMaxLines(int value) {
+		maxLines = value;
+		preferences.putInt(MAX_LINES_KEY, value);
 	}
 
-	public static void setInt(String key, int value) {
-		preferences.putInt(key, value);
-		LOG.fine("Saved " + key + " " + value);
+	public static int getRefreshRate() {
+		return refreshRate;
 	}
 
-	public static int getInt(String key, int defaultValue) {
-		return preferences.getInt(key, defaultValue);
+	public static void setRefreshRate(int value) {
+		refreshRate = value;
+		preferences.putInt(REFRESH_RATE_KEY, value);
+	}
+
+	public static int getBufferSize() {
+		return bufferSize;
+	}
+
+	public static void setBufferSize(int value) {
+		bufferSize = value;
+		preferences.putInt(BUFFER_SIZE_KEY, value);
 	}
 
 	public static String getLastKnowFolder() {

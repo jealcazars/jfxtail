@@ -10,13 +10,12 @@ public class MaxLineMenuItem extends AbstractIntDialogMenuItem {
 
 	@Override
 	public void save(Integer result) {
-		JfxTailAppPreferences.setInt(JfxTailAppPreferences.MAX_LINES_KEY, result);
-		JfxTailAppPreferences.MAX_LINES = result;
+		JfxTailAppPreferences.setMaxLines(result);
 	}
 
 	@Override
 	public Integer getDefaultValue() {
-		return JfxTailAppPreferences.MAX_LINES;
+		return JfxTailAppPreferences.getMaxLines();
 	}
 
 }

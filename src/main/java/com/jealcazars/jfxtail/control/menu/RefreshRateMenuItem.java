@@ -8,7 +8,7 @@ public class RefreshRateMenuItem extends AbstractIntDialogMenuItem {
 	private static final Logger LOG = Logger.getLogger(RefreshRateMenuItem.class.getName());
 
 	public RefreshRateMenuItem() {
-		super("Refresh Rate", "Refresh Rate:");
+		super("Refresh Rate", "Refresh Rate im ms:");
 	}
 
 	@Override

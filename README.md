@@ -10,7 +10,6 @@ Log viewer implemented with JavaFx
 ### Roadmap
 _The following features will be included in version 1.0.0:_
 
-- **Buffer size** - To avoid memory problems, the number of bytes to read from a file will be limited. User can modify this value
 - **Improve filters dialog** - Modify filter directly in the table
 
 _The following features will be included in later versions:_

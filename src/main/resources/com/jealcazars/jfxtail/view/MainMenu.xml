@@ -26,6 +26,7 @@
 					<TextFilterMenuItem
 						text="Include/Exclude Text Filter" />
 					<MaxLineMenuItem text="Max. Lines Number" />
+					<BufferSizeMenuItem text="Buffer Size" />
 					<RefreshRateMenuItem text="Refresh Rate" />
 				</items>
 			</Menu>

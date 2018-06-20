@@ -45,9 +45,13 @@ public class JfxTailAppPreferences {
 	public static int REFRESH_RATE;
 	public static final String REFRESH_RATE_KEY = "REFRESH_RATE";
 
+	public static int BUFFER_SIZE;
+	public static final String BUFFER_SIZE_KEY = "BUFFER_SIZE";
+
 	static {
 		MAX_LINES = getInt(MAX_LINES_KEY, 2000);
 		REFRESH_RATE = getInt(REFRESH_RATE_KEY, 200);
+		BUFFER_SIZE = getInt(BUFFER_SIZE_KEY, 10000000);
 	}
 
 	public static void set(String key, String value) {

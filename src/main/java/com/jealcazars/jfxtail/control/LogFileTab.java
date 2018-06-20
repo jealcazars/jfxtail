@@ -34,6 +34,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	boolean filterActive = false;
 	boolean highlightActive = false;
 	boolean followTailActive = false;
+	int BUFFER_SIZE = 1000;
 
 	int linesAlreadyAdded = 0;
 
@@ -136,8 +137,14 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
 			int bytesToRead = newLength - oldLength;
 
+			if (bytesToRead > JfxTailAppPreferences.BUFFER_SIZE) {
+				LOG.fine("bytesToRead bigger than buffer size, some bytes will be ignored");
+				bytesToRead = JfxTailAppPreferences.BUFFER_SIZE;
+			}
+
 			byte fileContentAsBytes[] = new byte[bytesToRead];
-			bis.skip(oldLength);
+			bis.skip(newLength - bytesToRead);
+
 			bis.read(fileContentAsBytes);
 			String[] newLines = new String(fileContentAsBytes, "UTF-8").split("\n");
 

@@ -5,6 +5,7 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn.CellEditEvent;
 
 public class HighlightFilterPanel extends AbstractFilterPanel<HighlightFilter> {
 
@@ -14,21 +15,17 @@ public class HighlightFilterPanel extends AbstractFilterPanel<HighlightFilter> {
 	}
 
 	@Override
-	public HighlightFilter getFiltertoSave() {
-		return new HighlightFilter(getEnabled().isSelected(), getToken().getText(),
-				getCombo().getSelectionModel().getSelectedItem());
-	}
-
-	@Override
 	public ObservableList<HighlightFilter> loadFilters() {
 		return FXCollections.observableArrayList(JfxTailAppPreferences.loadHighlightFilters());
 	}
 
 	@Override
-	public void loadFilterToEdit(HighlightFilter filter) {
-		getEnabled().setSelected(filter.isEnabled());
-		getToken().setText(filter.getToken());
-		getCombo().getSelectionModel().select(filter.getColor());
+	public HighlightFilter addNewFilter() {
+		return new HighlightFilter(false, "-", "");
 	}
 
+	@Override
+	public void editComboCell(CellEditEvent<?, ?> event) {
+		getTable().getItems().get(event.getTablePosition().getRow()).setColor((String) event.getNewValue());
+	}
 }

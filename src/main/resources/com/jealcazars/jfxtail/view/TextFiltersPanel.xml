@@ -7,63 +7,64 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+
 
 
 <fx:root xmlns:fx="http://javafx.com/fxml"
 	type="javafx.scene.layout.BorderPane" fx:id="root">
 	<center>
 		<VBox>
-			<TableView fx:id="table">
+			<TableView fx:id="table" editable="true">
 				<columns>
 					<TableColumn text="Enabled"
-						prefWidth="${table.width*0.1}">
+						prefWidth="${table.width*0.2}" fx:id="columnEnabled"
+						onEditCommit="#editEnabledCell">
 						<cellValueFactory>
 							<PropertyValueFactory property="enabled" />
 						</cellValueFactory>
+						<fx:script>
+							var enabledCellValue =
+							javafx.scene.control.cell.ComboBoxTableCell.forTableColumn("true","false");
+							columnEnabled.setCellFactory(enabledCellValue);
+						</fx:script>
 					</TableColumn>
 					<TableColumn text="Filter"
-						prefWidth="${table.width*0.7}">
+						prefWidth="${table.width*0.6}" onEditCommit="#editTokenCell"
+						fx:id="columnToken">
 						<cellValueFactory>
 							<PropertyValueFactory property="token" />
 						</cellValueFactory>
+						<cellFactory>
+							<TextFieldTableCell
+								fx:factory="forTableColumn" />
+						</cellFactory>
 					</TableColumn>
-					<TableColumn text="Type" prefWidth="${table.width*0.2}">
+					<TableColumn text="Type" prefWidth="${table.width*0.2}"
+						fx:id="columnType" onEditCommit="#editComboCell">
 						<cellValueFactory>
 							<PropertyValueFactory property="type" />
 						</cellValueFactory>
+						<fx:script>
+							var typeCellValue =
+							javafx.scene.control.cell.ComboBoxTableCell.forTableColumn("Include","Exclude");
+							columnType.setCellFactory(typeCellValue);
+						</fx:script>
 					</TableColumn>
 				</columns>
 			</TableView>
 		</VBox>
-
 	</center>
 	<bottom>
-		<GridPane hgap="10" vgap="10">
-			<CheckBox GridPane.columnIndex="1" GridPane.rowIndex="1"
-				fx:id="enabled" text="Enabled" />
-			<TextField GridPane.columnIndex="2" GridPane.rowIndex="1"
-				fx:id="token" prefWidth="200" />
-			<ComboBox GridPane.columnIndex="3" GridPane.rowIndex="1"
-				fx:id="combo">
-				<items>
-					<FXCollections fx:factory="observableArrayList">
-						<String fx:value="Include" />
-						<String fx:value="Exclude" />
-					</FXCollections>
-				</items>
-				<value>
-					<String fx:value="Include" />
-				</value>
-			</ComboBox>
-			<Button text="Add" GridPane.columnIndex="4"
-				GridPane.rowIndex="1" onAction="#addFilterToTable" />
-			<Button text="Modify" fx:id="saveButton"
-				GridPane.columnIndex="5" GridPane.rowIndex="1"
-				onAction="#saveFilter" disable="true" />
+		<HBox alignment="center_right">
+			<padding>
+				<Insets top="10" right="10" left="10" />
+			</padding>
+
+			<Button text="New" onAction="#addFilterToTable" />
 			<Button text="Delete" fx:id="deleteButton"
-				GridPane.columnIndex="6" GridPane.rowIndex="1"
 				onAction="#removeFilterFromTable" disable="true" />
-		</GridPane>
+		</HBox>
 	</bottom>
 
 </fx:root>

@@ -8,10 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
 public abstract class AbstractFilterPanel<T> extends BorderPane {
@@ -19,18 +17,6 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 
 	@FXML
 	TableView<T> table;
-
-	@FXML
-	CheckBox enabled;
-
-	@FXML
-	TextField token;
-
-	@FXML
-	ComboBox<String> combo;
-
-	@FXML
-	Button saveButton;
 
 	@FXML
 	Button deleteButton;
@@ -41,28 +27,20 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		ObservableList<T> tableData = loadFilters();
 
 		table.setItems(tableData);
-		
+
 		table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			LOG.fine("newSelection: " + newSelection);
 			if (newSelection != null) {
-				loadFilterToEdit(newSelection);
-
 				deleteButton.setDisable(false);
-				saveButton.setDisable(false);
 			} else {
 				deleteButton.setDisable(true);
-				saveButton.setDisable(true);
 			}
 		});
 	}
 
 	@FXML
 	private void addFilterToTable(ActionEvent event) {
-		if (token.getText() != null && token.getText().trim().length() > 0) {
-			LOG.fine("addTextFilterToTable: " + token.getText());
-			table.getItems().add(getFiltertoSave());
-			token.setText(null);
-		}
+		table.getItems().add(addNewFilter());
 	}
 
 	@FXML
@@ -70,19 +48,23 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		int index = table.getSelectionModel().getSelectedIndex();
 		LOG.fine("Removing: " + index);
 		if (index >= 0) {
-			token.setText(null);
 			table.getItems().remove(index);
 		}
 	}
 
 	@FXML
-	private void saveFilter(ActionEvent event) {
-		int index = table.getSelectionModel().getSelectedIndex();
-		if (token.getText() != null && token.getText().trim().length() > 0) {
-			LOG.fine("addTextFilterToTable: " + token.getText());
-			table.getItems().set(index, getFiltertoSave());
-		}
+	private void editTokenCell(CellEditEvent<?, ?> event) {
+		((Filter) table.getItems().get(event.getTablePosition().getRow())).setToken((String) event.getNewValue());
 	}
+
+	@FXML
+	private void editEnabledCell(CellEditEvent<?, ?> event) {
+		((Filter) table.getItems().get(event.getTablePosition().getRow()))
+				.setEnabled(Boolean.valueOf(event.getNewValue().toString()));
+	}
+
+	@FXML
+	public abstract void editComboCell(CellEditEvent<?, ?> event);
 
 	public ObservableList<T> getFilters() {
 		return table.getItems();
@@ -92,24 +74,10 @@ public abstract class AbstractFilterPanel<T> extends BorderPane {
 		return table;
 	}
 
-	public TextField getToken() {
-		return token;
-	}
-
-	public ComboBox<String> getCombo() {
-		return combo;
-	}
-
-	public CheckBox getEnabled() {
-		return enabled;
-	}
-
-	public abstract T getFiltertoSave();
+	public abstract T addNewFilter();
 
 	public abstract String getXmlConfig();
 
 	public abstract ObservableList<T> loadFilters();
-
-	public abstract void loadFilterToEdit(T filter);
 
 }

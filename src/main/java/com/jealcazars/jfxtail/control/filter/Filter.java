@@ -1,5 +1,7 @@
 package com.jealcazars.jfxtail.control.filter;
 
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Filter {
 
 	private boolean enabled;
@@ -25,6 +27,10 @@ public class Filter {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public SimpleBooleanProperty enabledProperty() {
+		return new SimpleBooleanProperty(enabled);
 	}
 
 	@Override

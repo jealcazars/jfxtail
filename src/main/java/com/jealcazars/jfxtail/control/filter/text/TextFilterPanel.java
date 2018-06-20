@@ -5,6 +5,7 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableColumn.CellEditEvent;
 
 public class TextFilterPanel extends AbstractFilterPanel<TextFilter> {
 
@@ -19,16 +20,13 @@ public class TextFilterPanel extends AbstractFilterPanel<TextFilter> {
 	}
 
 	@Override
-	public TextFilter getFiltertoSave() {
-		return new TextFilter(getEnabled().isSelected(), getToken().getText(),
-				getCombo().getSelectionModel().getSelectedItem());
+	public TextFilter addNewFilter() {
+		return new TextFilter(false, "-", "Include");
 	}
 
 	@Override
-	public void loadFilterToEdit(TextFilter filter) {
-		getEnabled().setSelected(filter.isEnabled());
-		getToken().setText(filter.getToken());
-		getCombo().getSelectionModel().select(filter.getType());
+	public void editComboCell(CellEditEvent<?, ?> event) {
+		getTable().getItems().get(event.getTablePosition().getRow()).setType((String) event.getNewValue());
 	}
 
 }

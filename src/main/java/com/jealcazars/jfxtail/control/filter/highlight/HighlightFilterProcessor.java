@@ -20,7 +20,7 @@ public class HighlightFilterProcessor {
 	private static List<HighlightFilter> highlightFilters;
 
 	private static boolean activeHighlightFilters;
-	
+
 	private HighlightFilterProcessor() {
 	}
 
@@ -69,7 +69,9 @@ public class HighlightFilterProcessor {
 			String styleClass = null;
 
 			for (int i = 0; styleClass == null && i < highlightFilters.size(); i++) {
-				styleClass = matcher.group("filter" + i) != null ? highlightFilters.get(i).getColor() : null;
+				styleClass = highlightFilters.get(i).isEnabled() && matcher.group("filter" + i) != null
+						? highlightFilters.get(i).getColor()
+						: null;
 			}
 
 			assert styleClass != null;

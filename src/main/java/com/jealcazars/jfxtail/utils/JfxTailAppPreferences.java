@@ -42,7 +42,7 @@ public class JfxTailAppPreferences {
 	public static int MAX_LINES;
 
 	static {
-		MAX_LINES = getInt("MAX_LINES", 200);
+		MAX_LINES = getInt("MAX_LINES", 2000);
 	}
 
 	public static void set(String key, String value) {

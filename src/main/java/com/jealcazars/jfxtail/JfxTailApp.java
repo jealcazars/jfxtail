@@ -1,16 +1,24 @@
 package com.jealcazars.jfxtail;
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jealcazars.jfxtail.control.LogFileTab;
 import com.jealcazars.jfxtail.control.LogFilesTabPane;
 import com.jealcazars.jfxtail.control.MainPanel;
+import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
@@ -64,6 +72,17 @@ public class JfxTailApp extends Application {
 			@Override
 			public void handle(WindowEvent t) {
 				LOG.fine("Closing jfxtail");
+
+				TabPane tabPane = (TabPane) scene.lookup("#logFilesTabPane");
+				ObservableList<Tab> tabs = tabPane.getTabs();
+
+				List<String> files = new LinkedList<>();
+				for (Iterator<Tab> iterator = tabs.iterator(); iterator.hasNext();) {
+					files.add(((LogFileTab) iterator.next()).getFilePath());
+				}
+
+				JfxTailAppPreferences.saveOpenFiles(files);
+
 				System.exit(0);
 			}
 		});

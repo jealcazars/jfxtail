@@ -37,7 +37,7 @@ public class MainMenu extends VBox {
 		LOG.fine("Refreshing recent files");
 		recentFiles.getItems().clear();
 
-		List<String> recentFilesPath = JfxTailAppPreferences.getLastOpenedFiles();
+		List<String> recentFilesPath = JfxTailAppPreferences.getLastOpenFiles();
 
 		LOG.fine("recentFilesPath.size: " + recentFilesPath.size());
 		LOG.fine("recentFilesPath: " + recentFilesPath);
@@ -64,7 +64,7 @@ public class MainMenu extends VBox {
 		MenuItem clearRecentFiles = new MenuItem("Clear");
 
 		clearRecentFiles.setOnAction(event -> {
-			JfxTailAppPreferences.clearLastOpenedFiles();
+			JfxTailAppPreferences.clearLastOpenFiles();
 			refreshRecentFiles();
 		});
 

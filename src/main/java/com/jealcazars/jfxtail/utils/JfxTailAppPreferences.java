@@ -23,9 +23,10 @@ public class JfxTailAppPreferences {
 	private static Preferences preferences = Preferences.userRoot().node(JfxTailApp.class.getName());
 
 	public static final String LAST_KNOWN_FOLDER = "LAST_KNOWN_FOLDER";
-	public static final String LAST_OPENED_FILES = "LAST_OPENED_FILES";
+	public static final String LAST_OPEN_FILES = "LAST_OPEN_FILES";
+	public static final String OPEN_FILES = "OPEN_FILES";
 
-	public static final int LAST_OPENED_FILES_MAX_SIZE = 5;
+	public static final int LAST_OPEN_FILES_MAX_SIZE = 5;
 
 	private static final String HIGHLIGHT_FILTERS_NUM = "HIGHLIGHTFILTERS_NUM";
 	private static final String HIGHLIGHT_FILTERS_PREFIX = "HIGHLIGHTFILTERS_";
@@ -48,10 +49,49 @@ public class JfxTailAppPreferences {
 	private static int bufferSize;
 	private static final String BUFFER_SIZE_KEY = "BUFFER_SIZE";
 
+	private static boolean followTail;
+	private static final String FOLLOW_TAIL_KEY = "FOLLOW_TAIL";
+
+	private static boolean filterActive;
+	private static final String FILTER_ACTIVE_KEY = "FILTER_ACTIVE";
+
+	private static boolean highlightActive;
+	private static final String HIGHLIGHT_ACTIVE_KEY = "HIGHLIGHT_ACTIVE";
+
 	static {
 		maxLines = preferences.getInt(MAX_LINES_KEY, 2000);
 		refreshRate = preferences.getInt(REFRESH_RATE_KEY, 200);
 		bufferSize = preferences.getInt(BUFFER_SIZE_KEY, 10000000);
+		followTail = preferences.getBoolean(FOLLOW_TAIL_KEY, false);
+		filterActive = preferences.getBoolean(FILTER_ACTIVE_KEY, false);
+		highlightActive = preferences.getBoolean(HIGHLIGHT_ACTIVE_KEY, false);
+	}
+
+	public static boolean isHighlightActive() {
+		return highlightActive;
+	}
+
+	public static void setHighlightActive(boolean value) {
+		highlightActive = value;
+		preferences.putBoolean(HIGHLIGHT_ACTIVE_KEY, value);
+	}
+
+	public static boolean isFilterActive() {
+		return filterActive;
+	}
+
+	public static void setFilterActive(boolean value) {
+		filterActive = value;
+		preferences.putBoolean(FILTER_ACTIVE_KEY, value);
+	}
+
+	public static boolean isFollowTailActive() {
+		return followTail;
+	}
+
+	public static void setFollowTail(boolean value) {
+		followTail = value;
+		preferences.putBoolean(FOLLOW_TAIL_KEY, value);
 	}
 
 	public static int getMaxLines() {
@@ -90,39 +130,57 @@ public class JfxTailAppPreferences {
 		LOG.fine("Saved " + LAST_KNOWN_FOLDER + " " + lastFolder);
 	}
 
-	public static void clearLastOpenedFiles() {
-		preferences.put(LAST_OPENED_FILES, "");
+	public static void clearLastOpenFiles() {
+		preferences.put(LAST_OPEN_FILES, "");
 	}
 
-	public static List<String> getLastOpenedFiles() {
-		if (preferences.get(LAST_OPENED_FILES, "").equals("")) {
+	public static List<String> getLastOpenFiles() {
+		if (preferences.get(LAST_OPEN_FILES, "").equals("")) {
 			return new ArrayList<>();
 		} else {
-			return Arrays.asList(preferences.get(LAST_OPENED_FILES, "").split("#"));
+			return Arrays.asList(preferences.get(LAST_OPEN_FILES, "").split("#"));
 		}
 	}
 
-	public static void addToLastOpenedFiles(String file) {
-		List<String> lastOpenedFiles = new ArrayList<>();
-		lastOpenedFiles.addAll(getLastOpenedFiles());
+	public static void addToLastOpenFiles(String file) {
+		List<String> lastOpenFiles = new ArrayList<>();
+		lastOpenFiles.addAll(getLastOpenFiles());
 
-		if (lastOpenedFiles.contains(file)) {
-			lastOpenedFiles.remove(file);
+		if (lastOpenFiles.contains(file)) {
+			lastOpenFiles.remove(file);
 		}
 
-		lastOpenedFiles.add(0, file);
+		lastOpenFiles.add(0, file);
 
-		if (lastOpenedFiles.size() > LAST_OPENED_FILES_MAX_SIZE) {
-			lastOpenedFiles = lastOpenedFiles.subList(0, LAST_OPENED_FILES_MAX_SIZE);
+		if (lastOpenFiles.size() > LAST_OPEN_FILES_MAX_SIZE) {
+			lastOpenFiles = lastOpenFiles.subList(0, LAST_OPEN_FILES_MAX_SIZE);
 		}
 
 		StringBuilder sb = new StringBuilder();
-		for (Iterator<String> iterator = lastOpenedFiles.iterator(); iterator.hasNext();) {
+		for (Iterator<String> iterator = lastOpenFiles.iterator(); iterator.hasNext();) {
 			sb.append(iterator.next()).append("#");
 		}
 
-		preferences.put(LAST_OPENED_FILES, sb.toString());
-		LOG.fine("Saved " + LAST_OPENED_FILES + " " + sb);
+		preferences.put(LAST_OPEN_FILES, sb.toString());
+		LOG.fine("Saved " + LAST_OPEN_FILES + " " + sb);
+	}
+
+	public static List<String> getOpenFiles() {
+		if (preferences.get(OPEN_FILES, "").equals("")) {
+			return new ArrayList<>();
+		} else {
+			return Arrays.asList(preferences.get(OPEN_FILES, "").split("#"));
+		}
+	}
+
+	public static void saveOpenFiles(List<String> files) {
+		StringBuilder sb = new StringBuilder();
+		for (Iterator<String> iterator = files.iterator(); iterator.hasNext();) {
+			sb.append(iterator.next()).append("#");
+		}
+
+		preferences.put(OPEN_FILES, sb.toString());
+		LOG.fine("Saved " + OPEN_FILES + " " + sb);
 	}
 
 	public static void saveHighlightFilters(List<HighlightFilter> highlightings) {

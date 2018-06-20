@@ -21,6 +21,7 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Tooltip;
 
 public class LogFileTab extends Tab implements PropertyChangeListener {
 	private static final Logger LOG = Logger.getLogger(LogFileTab.class.getName());
@@ -28,9 +29,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	File file;
 	FileListener fileListener;
 	private CodeArea codeArea = new CodeArea();
-	boolean filterActive = false;
-	boolean highlightActive = false;
-	boolean followTailActive = false;
 	int linesAlreadyAdded = 0;
 
 	private PropertyChangeSupport propertyChangeSupport;
@@ -41,9 +39,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		propertyChangeSupport = new PropertyChangeSupport(this);
 
 		this.file = file;
-
 		this.setText(file.getName());
 		setContent(virtualizedScrollPane);
+		setTooltip(new Tooltip(file.getAbsolutePath()));
 
 		// TODO review if needed
 		codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -79,6 +77,10 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		fileListener.restart();
 	}
 
+	public String getFilePath() {
+		return file.getAbsolutePath();
+	}
+
 	public void applyHighlightFilter() {
 		HighlightFilterProcessor.applyHighlighting(codeArea);
 	}
@@ -87,28 +89,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		HighlightFilterProcessor.cleanHighlighting(codeArea);
 	}
 
-	public boolean isHighlightActive() {
-		return highlightActive;
-	}
-
-	public void setHighlightActive(boolean highlightActive) {
-		this.highlightActive = highlightActive;
-	}
-
-	public boolean isFilterActive() {
-		return filterActive;
-	}
-
-	public void setFilterActive(boolean filterActive) {
-		this.filterActive = filterActive;
-	}
-
 	public int getLinesAlreadyAdded() {
 		return linesAlreadyAdded;
-	}
-
-	public void setFollowTailActive(boolean followTailActive) {
-		this.followTailActive = followTailActive;
 	}
 
 	@Override
@@ -148,8 +130,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 				}
 
 				for (int i = 0; i < newLines.length; i++) {
-					if (!isFilterActive()
-							|| (isFilterActive() && TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
+					if (!JfxTailAppPreferences.isFilterActive() || (JfxTailAppPreferences.isFilterActive()
+							&& TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
 						codeArea.appendText(newLines[i]);
 						linesAlreadyAdded++;
 
@@ -159,11 +141,11 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 					}
 				}
 
-				if (isHighlightActive()) {
+				if (JfxTailAppPreferences.isHighlightActive()) {
 					HighlightFilterProcessor.applyHighlighting(codeArea);
 				}
 
-				if (followTailActive) {
+				if (JfxTailAppPreferences.isFollowTailActive()) {
 					codeArea.scrollBy(new Point2D(0, 10000));
 				}
 

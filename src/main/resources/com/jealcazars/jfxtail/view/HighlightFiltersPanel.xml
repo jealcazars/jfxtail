@@ -49,9 +49,21 @@
 					fx:id="combo">
 					<items>
 						<FXCollections fx:factory="observableArrayList">
-							<String fx:value="Yellow" />
+							<String fx:value="Blue" />
+							<String fx:value="Brown" />
+							<String fx:value="Cyan" />
 							<String fx:value="Green" />
+							<String fx:value="Grey" />
+							<String fx:value="Indigo" />
+							<String fx:value="Lime" />
+							<String fx:value="Magenta" />
+							<String fx:value="Navy" />
+							<String fx:value="Orange" />
+							<String fx:value="Pink" />
+							<String fx:value="Purple" />
 							<String fx:value="Red" />
+							<String fx:value="Violet" />
+							<String fx:value="Yellow" />
 						</FXCollections>
 					</items>
 					<value>

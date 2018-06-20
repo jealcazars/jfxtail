@@ -1,17 +1,89 @@
-.Yellow {
+.Blue {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Blue;
+}
+
+.Brown {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Brown;
+}
+
+.Cyan {
 	-fx-fill: black;
 	-fx-font-weight: bold;
-	-rtfx-background-color: yellow;
+	-rtfx-background-color: Cyan;
 }
 
 .Green {
 	-fx-fill: white;
 	-fx-font-weight: bold;
-	-rtfx-background-color: green;
+	-rtfx-background-color: Green;
+}
+
+.Grey {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Grey;
+}
+
+.Indigo {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Indigo;
+}
+
+.Lime {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Lime;
+}
+
+.Magenta {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Magenta;
+}
+
+.Navy {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Navy;
+}
+
+.Orange {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Orange;
+}
+
+.Pink {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Pink;
+}
+
+.Purple {
+	-fx-fill: black;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Purple;
 }
 
 .Red {
 	-fx-fill: white;
 	-fx-font-weight: bold;
 	-rtfx-background-color: red;
+}
+
+.Violet {
+	-fx-fill: white;
+	-fx-font-weight: bold;
+	-rtfx-background-color: Violet;
+}
+
+.Yellow {
+	-fx-fill: black;
+	-fx-font-weight: bold;
+	-rtfx-background-color: yellow;
 }

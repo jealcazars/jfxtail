@@ -1,6 +1,6 @@
 package com.jealcazars.jfxtail.control.filter.text;
 
-import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +10,10 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 public class TextFilterProcessor {
 	private static final Logger LOG = Logger.getLogger(JfxTailAppPreferences.class.getName());
 
-	private static LinkedList<TextFilter> textFilters;
+	private static List<TextFilter> textFilters;
+
+	private TextFilterProcessor() {
+	}
 
 	public static void reloadFilters() {
 		textFilters = JfxTailAppPreferences.loadTextFilters();

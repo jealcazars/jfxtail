@@ -2,7 +2,7 @@ package com.jealcazars.jfxtail.control.filter.highlight;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,9 +17,12 @@ public class HighlightFilterProcessor {
 	private static final Logger LOG = Logger.getLogger(HighlightFilterProcessor.class.getName());
 
 	private static Pattern pattern;
-	private static LinkedList<HighlightFilter> highlightFilters;
+	private static List<HighlightFilter> highlightFilters;
 
 	private static boolean activeHighlightFilters;
+	
+	private HighlightFilterProcessor() {
+	}
 
 	public static void reloadFilters() {
 		highlightFilters = JfxTailAppPreferences.loadHighlightFilters();

@@ -39,8 +39,8 @@ public class JfxTailAppPreferences {
 	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
 	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
-	public static int maxLines;
-	public static final String MAX_LINES_KEY = "MAX_LINES";
+	private static int maxLines;
+	private static final String MAX_LINES_KEY = "MAX_LINES";
 
 	private static int refreshRate;
 	private static final String REFRESH_RATE_KEY = "REFRESH_RATE";
@@ -125,7 +125,7 @@ public class JfxTailAppPreferences {
 		LOG.fine("Saved " + LAST_OPENED_FILES + " " + sb);
 	}
 
-	public static void saveHighlightFilters(LinkedList<HighlightFilter> highlightings) {
+	public static void saveHighlightFilters(List<HighlightFilter> highlightings) {
 		preferences.putInt(HIGHLIGHT_FILTERS_NUM, highlightings.size());
 		LOG.fine(HIGHLIGHT_FILTERS_NUM + ": " + highlightings.size());
 		HighlightFilter highlighting = null;
@@ -138,8 +138,8 @@ public class JfxTailAppPreferences {
 		}
 	}
 
-	public static LinkedList<HighlightFilter> loadHighlightFilters() {
-		LinkedList<HighlightFilter> highlightings = new LinkedList<HighlightFilter>();
+	public static List<HighlightFilter> loadHighlightFilters() {
+		List<HighlightFilter> highlightings = new LinkedList<>();
 		int size = preferences.getInt(HIGHLIGHT_FILTERS_NUM, 0);
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
@@ -155,7 +155,7 @@ public class JfxTailAppPreferences {
 		return highlightings;
 	}
 
-	public static void saveTextFilters(LinkedList<TextFilter> textfilters) {
+	public static void saveTextFilters(List<TextFilter> textfilters) {
 		preferences.putInt(TEXT_FILTERS_NUM, textfilters.size());
 		LOG.fine(TEXT_FILTERS_NUM + ": " + textfilters.size());
 		TextFilter textfilter = null;
@@ -170,8 +170,8 @@ public class JfxTailAppPreferences {
 		}
 	}
 
-	public static LinkedList<TextFilter> loadTextFilters() {
-		LinkedList<TextFilter> textfilters = new LinkedList<TextFilter>();
+	public static List<TextFilter> loadTextFilters() {
+		List<TextFilter> textfilters = new LinkedList<>();
 		int size = preferences.getInt(TEXT_FILTERS_NUM, 0);
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {

@@ -19,8 +19,6 @@ import com.jealcazars.jfxtail.file.FileListener;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -34,8 +32,6 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	boolean filterActive = false;
 	boolean highlightActive = false;
 	boolean followTailActive = false;
-	int BUFFER_SIZE = 1000;
-
 	int linesAlreadyAdded = 0;
 
 	private PropertyChangeSupport propertyChangeSupport;
@@ -56,12 +52,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		fileListener = new FileListener(file);
 		fileListener.addPropertyChangeListener(this);
 
-		setOnClosed(new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				LOG.fine("Closing tab!");
-				fileListener.stop();
-			}
+		setOnClosed(event -> {
+			LOG.fine("Closing tab!");
+			fileListener.stop();
 		});
 
 		loadFile();
@@ -148,35 +141,33 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			bis.read(fileContentAsBytes);
 			String[] newLines = new String(fileContentAsBytes, "UTF-8").split("\n");
 
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
+			Platform.runLater(() -> {
 
-					if (!append) {
-						codeArea.clear();
-						linesAlreadyAdded = 0;
-					}
+				if (!append) {
+					codeArea.clear();
+					linesAlreadyAdded = 0;
+				}
 
-					for (int i = 0; i < newLines.length; i++) {
-						if (!isFilterActive()
-								|| (isFilterActive() && TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
-							codeArea.appendText(newLines[i]);
-							linesAlreadyAdded++;
+				for (int i = 0; i < newLines.length; i++) {
+					if (!isFilterActive()
+							|| (isFilterActive() && TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
+						codeArea.appendText(newLines[i]);
+						linesAlreadyAdded++;
 
-							if (linesAlreadyAdded > JfxTailAppPreferences.maxLines) {
-								codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
-							}
+						if (linesAlreadyAdded > JfxTailAppPreferences.getMaxLines()) {
+							codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
 						}
 					}
-
-					if (isHighlightActive()) {
-						HighlightFilterProcessor.applyHighlighting(codeArea);
-					}
-
-					if (followTailActive) {
-						codeArea.scrollBy(new Point2D(0, 10000));
-					}
 				}
+
+				if (isHighlightActive()) {
+					HighlightFilterProcessor.applyHighlighting(codeArea);
+				}
+
+				if (followTailActive) {
+					codeArea.scrollBy(new Point2D(0, 10000));
+				}
+
 			});
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, "Error " + e.getMessage(), e);

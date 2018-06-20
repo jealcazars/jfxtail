@@ -16,6 +16,7 @@ import org.fxmisc.richtext.LineNumberFactory;
 import com.jealcazars.jfxtail.control.filter.highlight.HighlightFilterProcessor;
 import com.jealcazars.jfxtail.control.filter.text.TextFilterProcessor;
 import com.jealcazars.jfxtail.file.FileListener;
+import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -32,6 +33,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	private CodeArea codeArea = new CodeArea();
 	boolean filterActive = false;
 	boolean highlightActive = false;
+	int linesAlreadyAdded = 0;
 
 	private PropertyChangeSupport propertyChangeSupport;
 	VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
@@ -43,9 +45,11 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		this.file = file;
 
 		this.setText(file.getName());
-
 		setContent(virtualizedScrollPane);
+
+		// TODO review if needed
 		codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+
 		fileListener = new FileListener(file);
 		fileListener.addPropertyChangeListener(this);
 
@@ -104,6 +108,10 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		this.filterActive = filterActive;
 	}
 
+	public int getLinesAlreadyAdded() {
+		return linesAlreadyAdded;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (FileListener.FILE_WAS_MODIFIED.equals(evt.getPropertyName())) {
@@ -127,24 +135,24 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			bis.read(fileContentAsBytes);
 			String[] newLines = new String(fileContentAsBytes, "UTF-8").split("\n");
 
-			// LOG.fine("Lines:" + LiveList.sizeOf(codeArea.getParagraphs()).getValue());
-
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 
 					if (!append) {
 						codeArea.clear();
+						linesAlreadyAdded = 0;
 					}
 
 					for (int i = 0; i < newLines.length; i++) {
-
-						if (isFilterActive()) {
-							if (TextFilterProcessor.lineMustBeAppended(newLines[i])) {
-								codeArea.appendText(newLines[i]);
-							}
-						} else {
+						if (!isFilterActive()
+								|| (isFilterActive() && TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
 							codeArea.appendText(newLines[i]);
+							linesAlreadyAdded++;
+
+							if (linesAlreadyAdded > JfxTailAppPreferences.MAX_LINES) {
+								codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
+							}
 						}
 					}
 
@@ -159,5 +167,4 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			LOG.log(Level.SEVERE, "Error " + e.getMessage(), e);
 		}
 	}
-
 }

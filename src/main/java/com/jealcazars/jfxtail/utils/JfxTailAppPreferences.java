@@ -39,6 +39,28 @@ public class JfxTailAppPreferences {
 	private static final String TEXT_FILTERS_TOKEN_PREFIX = TEXT_FILTERS_PREFIX + "TOKEN_";
 	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
+	public static int MAX_LINES;
+
+	static {
+		MAX_LINES = getInt("MAX_LINES", 200);
+	}
+
+	public static void set(String key, String value) {
+		preferences.put(key, value);
+	}
+
+	public static String get(String key, String defaultValue) {
+		return preferences.get(key, defaultValue);
+	}
+
+	public static void setInt(String key, int value) {
+		preferences.putInt(key, value);
+	}
+
+	public static int getInt(String key, int defaultValue) {
+		return preferences.getInt(key, defaultValue);
+	}
+
 	public static String getLastKnowFolder() {
 		return preferences.get(LAST_KNOWN_FOLDER, null);
 	}

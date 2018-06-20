@@ -108,7 +108,7 @@
 					</ImageView>
 				</graphic>
 			</HighlightButton>
-			<SearchButton fx:id="searchButton" minWidth="48"
+<!-- 		<SearchButton fx:id="searchButton" minWidth="48"
 				maxWidth="48">
 				<tooltip>
 					<Tooltip text="Search" />
@@ -121,7 +121,7 @@
 						</image>
 					</ImageView>
 				</graphic>
-			</SearchButton>
+			</SearchButton> -->	
 		</HBox>
 	</ToolBar>
 </fx:root>

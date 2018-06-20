@@ -23,7 +23,10 @@
 			<Menu text="Tools">
 				<items>
 					<HighlightMenuItem text="Highlight Filter" />
-					<TextFilterMenuItem text="Include Text Filter" />
+					<TextFilterMenuItem
+						text="Include/Exclude Text Filter" />
+					<MaxLineMenuItem text="Max. Lines Number" />
+					<RefreshRateMenuItem text="Refresh Rate" />
 				</items>
 			</Menu>
 		</menus>

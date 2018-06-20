@@ -10,7 +10,6 @@ Log viewer implemented with JavaFx
 ### Roadmap
 _The following features will be included in version 1.0.0:_
 
-- **Max lines** - To avoid memory problems, the number of lines to show will be limited. User can modify this value
 - **Buffer size** - To avoid memory problems, the number of bytes to read from a file will be limited. User can modify this value
 - **Follow tail** - Toggle button will be included to disable following tail
 - **Improve filters dialog** - Modify filter directly in the table

@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
+
 public class FileListener implements Runnable {
 	private static final Logger LOG = Logger.getLogger(FileListener.class.getName());
 
@@ -51,7 +53,7 @@ public class FileListener implements Runnable {
 					lastLength = file.length();
 				}
 
-				Thread.sleep(200);
+				Thread.sleep(JfxTailAppPreferences.REFRESH_RATE);
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, "Error", e);
 			}

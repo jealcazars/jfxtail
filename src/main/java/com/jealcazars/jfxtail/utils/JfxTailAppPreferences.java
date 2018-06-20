@@ -40,13 +40,19 @@ public class JfxTailAppPreferences {
 	private static final String TEXT_FILTERS_TYPE_PREFIX = TEXT_FILTERS_PREFIX + "TYPE_";
 
 	public static int MAX_LINES;
+	public static final String MAX_LINES_KEY = "MAX_LINES";
+
+	public static int REFRESH_RATE;
+	public static final String REFRESH_RATE_KEY = "REFRESH_RATE";
 
 	static {
-		MAX_LINES = getInt("MAX_LINES", 2000);
+		MAX_LINES = getInt(MAX_LINES_KEY, 2000);
+		REFRESH_RATE = getInt(REFRESH_RATE_KEY, 200);
 	}
 
 	public static void set(String key, String value) {
 		preferences.put(key, value);
+		LOG.fine("Saved " + key + " " + value);
 	}
 
 	public static String get(String key, String defaultValue) {
@@ -55,6 +61,7 @@ public class JfxTailAppPreferences {
 
 	public static void setInt(String key, int value) {
 		preferences.putInt(key, value);
+		LOG.fine("Saved " + key + " " + value);
 	}
 
 	public static int getInt(String key, int defaultValue) {

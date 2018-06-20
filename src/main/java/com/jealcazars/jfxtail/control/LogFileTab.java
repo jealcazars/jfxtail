@@ -33,6 +33,8 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	private CodeArea codeArea = new CodeArea();
 	boolean filterActive = false;
 	boolean highlightActive = false;
+	boolean followTailActive = false;
+
 	int linesAlreadyAdded = 0;
 
 	private PropertyChangeSupport propertyChangeSupport;
@@ -112,6 +114,10 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		return linesAlreadyAdded;
 	}
 
+	public void setFollowTailActive(boolean followTailActive) {
+		this.followTailActive = followTailActive;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (FileListener.FILE_WAS_MODIFIED.equals(evt.getPropertyName())) {
@@ -160,7 +166,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 						HighlightFilterProcessor.applyHighlighting(codeArea);
 					}
 
-					codeArea.scrollBy(new Point2D(0, 10000));
+					if (followTailActive) {
+						codeArea.scrollBy(new Point2D(0, 10000));
+					}
 				}
 			});
 		} catch (Exception e) {

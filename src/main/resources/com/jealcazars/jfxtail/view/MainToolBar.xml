@@ -108,20 +108,24 @@
 					</ImageView>
 				</graphic>
 			</HighlightButton>
-<!-- 		<SearchButton fx:id="searchButton" minWidth="48"
-				maxWidth="48">
+			<!-- <SearchButton fx:id="searchButton" minWidth="48" maxWidth="48"> <tooltip> 
+				<Tooltip text="Search" /> </tooltip> <graphic> <ImageView> <image> <Image 
+				url="com/jealcazars/jfxtail/icons/search.png" preserveRatio="true" /> </image> 
+				</ImageView> </graphic> </SearchButton> -->
+			<FollowTailButton fx:id="followTailButton"
+				minWidth="48" maxWidth="48">
 				<tooltip>
-					<Tooltip text="Search" />
+					<Tooltip text="Follow Tail" />
 				</tooltip>
 				<graphic>
 					<ImageView>
 						<image>
-							<Image url="com/jealcazars/jfxtail/icons/search.png"
+							<Image url="com/jealcazars/jfxtail/icons/followTail.png"
 								preserveRatio="true" />
 						</image>
 					</ImageView>
 				</graphic>
-			</SearchButton> -->	
+			</FollowTailButton>
 		</HBox>
 	</ToolBar>
 </fx:root>

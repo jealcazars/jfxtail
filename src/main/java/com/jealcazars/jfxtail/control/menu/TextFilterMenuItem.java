@@ -10,29 +10,22 @@ import com.jealcazars.jfxtail.control.filter.text.TextFilterPanel;
 import com.jealcazars.jfxtail.control.filter.text.TextFilterProcessor;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 
 public class TextFilterMenuItem extends MenuItem {
 	private static final Logger LOG = Logger.getLogger(TextFilterMenuItem.class.getName());
 
 	public TextFilterMenuItem() {
-		setOnAction(new EventHandler<ActionEvent>() {
+		setOnAction(event -> {
+			LOG.fine("MenuHighlight");
 
-			@Override
-			public void handle(ActionEvent event) {
-				LOG.fine("MenuHighlight");
+			FilterDialog<TextFilter> dialog = new FilterDialog<>("Text Filters", new TextFilterPanel());
 
-				FilterDialog<TextFilter> dialog = new FilterDialog<>("Text Filters", new TextFilterPanel());
-
-				Optional<LinkedList<TextFilter>> optional = dialog.showAndWait();
-				optional.ifPresent(result -> {
-					JfxTailAppPreferences.saveTextFilters(result);
-					TextFilterProcessor.reloadFilters();
-				});
-			}
+			Optional<LinkedList<TextFilter>> optional = dialog.showAndWait();
+			optional.ifPresent(result -> {
+				JfxTailAppPreferences.saveTextFilters(result);
+				TextFilterProcessor.reloadFilters();
+			});
 		});
 	}
-
 }

@@ -14,7 +14,7 @@ public class LogFilesTabPane extends TabPane {
 
 	public void addFile(File file, boolean setLastKnowFolder) {
 		LOG.fine("Adding file to panel: " + file.getAbsolutePath());
-		LogFileTab tabFile = new LogFileTab(file, getScene());
+		LogFileTab tabFile = new LogFileTab(file);
 
 		FilterButton filterButton = (FilterButton) getScene().lookup("#filterButton");
 

@@ -7,8 +7,6 @@ import com.jealcazars.jfxtail.control.LogFilesTabPane;
 import com.jealcazars.jfxtail.control.MainMenu;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 
@@ -19,30 +17,26 @@ public class OpenMenuItem extends MenuItem {
 
 	public OpenMenuItem() {
 
-		setOnAction(new EventHandler<ActionEvent>() {
+		setOnAction(event -> {
+			LOG.fine("MenuItemOpen");
+			FileChooser fileChooser = new FileChooser();
 
-			@Override
-			public void handle(ActionEvent event) {
-				LOG.fine("MenuItemOpen");
-				FileChooser fileChooser = new FileChooser();
+			String lastKnownDirectory = JfxTailAppPreferences.getLastKnowFolder();
 
-				String lastKnownDirectory = JfxTailAppPreferences.getLastKnowFolder();
-
-				if (lastKnownDirectory != null) {
-					File folder = new File(lastKnownDirectory);
-					if (folder.exists()) {
-						fileChooser.setInitialDirectory(folder);
-					}
+			if (lastKnownDirectory != null) {
+				File folder = new File(lastKnownDirectory);
+				if (folder.exists()) {
+					fileChooser.setInitialDirectory(folder);
 				}
+			}
 
-				fileChooser.setTitle("Open Resource File");
+			fileChooser.setTitle("Open Resource File");
 
-				File chosenFile = fileChooser.showOpenDialog(parent.getScene().getWindow());
+			File chosenFile = fileChooser.showOpenDialog(parent.getScene().getWindow());
 
-				if (chosenFile != null) {
-					LogFilesTabPane tabPaneFiles = (LogFilesTabPane) parent.getScene().lookup("#logFilesTabPane");
-					tabPaneFiles.addFile(chosenFile, true);
-				}
+			if (chosenFile != null) {
+				LogFilesTabPane tabPaneFiles = (LogFilesTabPane) parent.getScene().lookup("#logFilesTabPane");
+				tabPaneFiles.addFile(chosenFile, true);
 			}
 		});
 	}

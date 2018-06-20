@@ -11,7 +11,6 @@ import com.jealcazars.jfxtail.control.MainPanel;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
@@ -32,38 +31,32 @@ public class JfxTailApp extends Application {
 		scene.getStylesheets().add("com/jealcazars/jfxtail/css/jfxtail.css");
 		primaryStage.setScene(scene);
 
-		scene.setOnDragOver(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				if (db.hasFiles()) {
-					event.acceptTransferModes(TransferMode.LINK);
-				} else {
-					event.consume();
-				}
+		scene.setOnDragOver(event -> {
+			Dragboard db = event.getDragboard();
+			if (db.hasFiles()) {
+				event.acceptTransferModes(TransferMode.LINK);
+			} else {
+				event.consume();
 			}
 		});
 
 		// Dropping over surface
-		scene.setOnDragDropped(new EventHandler<DragEvent>() {
-			@Override
-			public void handle(DragEvent event) {
-				Dragboard db = event.getDragboard();
-				boolean success = false;
-				if (db.hasFiles()) {
-					success = true;
-					for (File file : db.getFiles()) {
-						LOG.fine("Drag&Drop adding: " + file.getAbsolutePath());
+		scene.setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+			boolean success = false;
+			if (db.hasFiles()) {
+				success = true;
+				for (File file : db.getFiles()) {
+					LOG.fine("Drag&Drop adding: " + file.getAbsolutePath());
 
-						LogFilesTabPane tabPaneFiles = (LogFilesTabPane) scene.lookup("#logFilesTabPane");
-						tabPaneFiles.addFile(file, false);
-					}
-					LOG.fine("Files added, refreshing recent menu now");
+					LogFilesTabPane tabPaneFiles = (LogFilesTabPane) scene.lookup("#logFilesTabPane");
+					tabPaneFiles.addFile(file, false);
 				}
-
-				event.setDropCompleted(success);
-				event.consume();
+				LOG.fine("Files added, refreshing recent menu now");
 			}
+
+			event.setDropCompleted(success);
+			event.consume();
 		});
 
 		primaryStage.show();
@@ -74,7 +67,6 @@ public class JfxTailApp extends Application {
 				System.exit(0);
 			}
 		});
-
 	}
 
 	private void setLoggerConfig() {
@@ -86,7 +78,6 @@ public class JfxTailApp extends Application {
 		Logger logger = Logger.getLogger("com.jealcazars");
 		logger.addHandler(consoleHandler);
 		logger.setLevel(Level.FINE);
-
 	}
 
 	public static void main(String[] args) {

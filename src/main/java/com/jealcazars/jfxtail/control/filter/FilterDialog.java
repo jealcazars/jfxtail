@@ -28,7 +28,7 @@ public class FilterDialog<T> extends Dialog<LinkedList<T>> {
 
 		setResultConverter(dialogButton -> {
 			if (dialogButton == saveButton) {
-				LinkedList<T> values = new LinkedList<T>();
+				LinkedList<T> values = new LinkedList<>();
 				values.addAll(0, filtersPanel.getFilters());
 				return values;
 			}

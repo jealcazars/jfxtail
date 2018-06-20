@@ -9,9 +9,6 @@ import com.jealcazars.jfxtail.control.menu.OpenMenuItem;
 import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 import com.jealcazars.jfxtail.view.FXMLViewLoader;
 
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -31,12 +28,8 @@ public class MainMenu extends VBox {
 		FXMLViewLoader.load(this, "MainMenu.xml");
 		menuItemOpen.setParent(this);
 		addClearButtonToRecentFiles();
-		recentFiles.setOnShowing(new EventHandler<Event>() {
-
-			@Override
-			public void handle(Event event) {
-				refreshRecentFiles();
-			}
+		recentFiles.setOnShowing(event -> {
+			refreshRecentFiles();
 		});
 	}
 
@@ -55,14 +48,10 @@ public class MainMenu extends VBox {
 
 			MenuItem menuItem = new MenuItem(file.getAbsolutePath());
 
-			menuItem.setOnAction(new EventHandler<ActionEvent>() {
-
-				@Override
-				public void handle(ActionEvent event) {
-					LogFilesTabPane tabPane = (LogFilesTabPane) getScene().lookup("#logFilesTabPane");
-					tabPane.addFile(file, false);
-					refreshRecentFiles();
-				}
+			menuItem.setOnAction(event -> {
+				LogFilesTabPane tabPane = (LogFilesTabPane) getScene().lookup("#logFilesTabPane");
+				tabPane.addFile(file, false);
+				refreshRecentFiles();
 			});
 
 			recentFiles.getItems().add(menuItem);
@@ -74,13 +63,9 @@ public class MainMenu extends VBox {
 	private void addClearButtonToRecentFiles() {
 		MenuItem clearRecentFiles = new MenuItem("Clear");
 
-		clearRecentFiles.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				JfxTailAppPreferences.clearLastOpenedFiles();
-				refreshRecentFiles();
-			}
+		clearRecentFiles.setOnAction(event -> {
+			JfxTailAppPreferences.clearLastOpenedFiles();
+			refreshRecentFiles();
 		});
 
 		recentFiles.getItems().add(new SeparatorMenuItem());

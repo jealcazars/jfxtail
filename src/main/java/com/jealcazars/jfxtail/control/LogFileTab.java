@@ -20,7 +20,6 @@ import com.jealcazars.jfxtail.utils.JfxTailAppPreferences;
 
 import javafx.application.Platform;
 import javafx.geometry.Point2D;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 
 public class LogFileTab extends Tab implements PropertyChangeListener {
@@ -37,7 +36,7 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	private PropertyChangeSupport propertyChangeSupport;
 	VirtualizedScrollPane<CodeArea> virtualizedScrollPane = new VirtualizedScrollPane<>(codeArea);
 
-	public LogFileTab(File file, Scene scene) {
+	public LogFileTab(File file) {
 		super();
 		propertyChangeSupport = new PropertyChangeSupport(this);
 

@@ -17,8 +17,8 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.TransferMode;
 import javafx.stage.Stage;
 
@@ -37,40 +37,14 @@ public class JfxTailApp extends Application {
 		scene.getStylesheets().add("com/jealcazars/jfxtail/css/jfxtail.css");
 		primaryStage.setScene(scene);
 
-		scene.setOnDragOver(event -> {
-			Dragboard db = event.getDragboard();
-			if (db.hasFiles()) {
-				event.acceptTransferModes(TransferMode.LINK);
-			} else {
-				event.consume();
-			}
-		});
-
-		// Dropping over surface
-		scene.setOnDragDropped(event -> {
-			Dragboard db = event.getDragboard();
-			boolean success = false;
-			if (db.hasFiles()) {
-				success = true;
-				for (File file : db.getFiles()) {
-					LOG.fine("Drag&Drop adding: " + file.getAbsolutePath());
-
-					LogFilesTabPane tabPaneFiles = (LogFilesTabPane) scene.lookup("#logFilesTabPane");
-					tabPaneFiles.addFile(file, false);
-				}
-				LOG.fine("Files added, refreshing recent menu now");
-			}
-
-			event.setDropCompleted(success);
-			event.consume();
-		});
+		setOnDragActions(scene);
+		setOnKeyPressedActions(scene);
 
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(event -> {
 			LOG.fine("Closing jfxtail");
 
-			TabPane tabPane = (TabPane) scene.lookup("#logFilesTabPane");
-			ObservableList<Tab> tabs = tabPane.getTabs();
+			ObservableList<Tab> tabs = LogFilesTabPane.getLogFilesTabs(scene);
 
 			List<String> files = new LinkedList<>();
 			for (Iterator<Tab> iterator = tabs.iterator(); iterator.hasNext();) {
@@ -92,6 +66,46 @@ public class JfxTailApp extends Application {
 		Logger logger = Logger.getLogger("com.jealcazars");
 		logger.addHandler(consoleHandler);
 		logger.setLevel(Level.FINE);
+	}
+
+	private void setOnDragActions(Scene scene) {
+
+		scene.setOnDragOver(event -> {
+			Dragboard db = event.getDragboard();
+			if (db.hasFiles()) {
+				event.acceptTransferModes(TransferMode.LINK);
+			} else {
+				event.consume();
+			}
+		});
+
+		// Dropping over surface
+		scene.setOnDragDropped(event -> {
+			Dragboard db = event.getDragboard();
+			boolean success = false;
+			if (db.hasFiles()) {
+				success = true;
+				for (File file : db.getFiles()) {
+					LOG.fine("Drag&Drop adding: " + file.getAbsolutePath());
+					LogFilesTabPane tabPaneFiles = LogFilesTabPane.getLogFilesTabPane(scene);
+					tabPaneFiles.addFile(file, false);
+				}
+				LOG.fine("Files added, refreshing recent menu now");
+			}
+
+			event.setDropCompleted(success);
+			event.consume();
+		});
+	}
+
+	private void setOnKeyPressedActions(Scene scene) {
+		scene.setOnKeyPressed(ke -> {
+			if (ke.getCode() == KeyCode.F3) {
+				LOG.fine("F3  Pressed: " + ke.getCode());
+				LogFilesTabPane tabPane = LogFilesTabPane.getLogFilesTabPane(scene);
+				tabPane.executeSearch();
+			}
+		});
 	}
 
 	public static void main(String[] args) {

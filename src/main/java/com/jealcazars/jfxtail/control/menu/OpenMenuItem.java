@@ -35,7 +35,7 @@ public class OpenMenuItem extends MenuItem {
 			File chosenFile = fileChooser.showOpenDialog(parent.getScene().getWindow());
 
 			if (chosenFile != null) {
-				LogFilesTabPane tabPaneFiles = (LogFilesTabPane) parent.getScene().lookup("#logFilesTabPane");
+				LogFilesTabPane tabPaneFiles = LogFilesTabPane.getLogFilesTabPane(parent.getScene());
 				tabPaneFiles.addFile(chosenFile, true);
 			}
 		});

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
@@ -61,6 +62,9 @@ public class JfxTailAppPreferences {
 	public static String lastSearch = "lastSearch";
 	public static final String LAST_SEARCH_KEY = "LAST_SEARCH";
 
+	public static boolean lastSearchMatchCase;
+	public static final String LAST_SEARCH_MATCH_CASE_KEY = "LAST_SEARCH_MATCH_CASE";
+
 	static {
 		maxLines = preferences.getInt(MAX_LINES_KEY, 2000);
 		refreshRate = preferences.getInt(REFRESH_RATE_KEY, 200);
@@ -69,6 +73,7 @@ public class JfxTailAppPreferences {
 		filterActive = preferences.getBoolean(FILTER_ACTIVE_KEY, false);
 		highlightActive = preferences.getBoolean(HIGHLIGHT_ACTIVE_KEY, false);
 		lastSearch = preferences.get(LAST_SEARCH_KEY, "");
+		lastSearchMatchCase = preferences.getBoolean(LAST_SEARCH_MATCH_CASE_KEY, false);
 	}
 
 	public static boolean isHighlightActive() {
@@ -77,7 +82,7 @@ public class JfxTailAppPreferences {
 
 	public static void setHighlightActive(boolean value) {
 		highlightActive = value;
-		preferences.putBoolean(HIGHLIGHT_ACTIVE_KEY, value);
+		putBoolean(HIGHLIGHT_ACTIVE_KEY, value);
 	}
 
 	public static boolean isFilterActive() {
@@ -86,7 +91,7 @@ public class JfxTailAppPreferences {
 
 	public static void setFilterActive(boolean value) {
 		filterActive = value;
-		preferences.putBoolean(FILTER_ACTIVE_KEY, value);
+		putBoolean(FILTER_ACTIVE_KEY, value);
 	}
 
 	public static boolean isFollowTailActive() {
@@ -95,7 +100,7 @@ public class JfxTailAppPreferences {
 
 	public static void setFollowTail(boolean value) {
 		followTail = value;
-		preferences.putBoolean(FOLLOW_TAIL_KEY, value);
+		putBoolean(FOLLOW_TAIL_KEY, value);
 	}
 
 	public static int getMaxLines() {
@@ -104,7 +109,7 @@ public class JfxTailAppPreferences {
 
 	public static void setMaxLines(int value) {
 		maxLines = value;
-		preferences.putInt(MAX_LINES_KEY, value);
+		putInt(MAX_LINES_KEY, value);
 	}
 
 	public static int getRefreshRate() {
@@ -113,7 +118,7 @@ public class JfxTailAppPreferences {
 
 	public static void setRefreshRate(int value) {
 		refreshRate = value;
-		preferences.putInt(REFRESH_RATE_KEY, value);
+		putInt(REFRESH_RATE_KEY, value);
 	}
 
 	public static int getBufferSize() {
@@ -122,7 +127,7 @@ public class JfxTailAppPreferences {
 
 	public static void setBufferSize(int value) {
 		bufferSize = value;
-		preferences.putInt(BUFFER_SIZE_KEY, value);
+		putInt(BUFFER_SIZE_KEY, value);
 	}
 
 	public static String getLastSearch() {
@@ -131,8 +136,16 @@ public class JfxTailAppPreferences {
 
 	public static void setLastSearch(String lastSearch) {
 		JfxTailAppPreferences.lastSearch = lastSearch;
-		preferences.put(LAST_SEARCH_KEY, lastSearch);
-		LOG.fine("Saved " + LAST_SEARCH_KEY + " " + lastSearch);
+		put(LAST_SEARCH_KEY, lastSearch);
+	}
+
+	public static boolean isLastSearchMatchCase() {
+		return JfxTailAppPreferences.lastSearchMatchCase;
+	}
+
+	public static void setLastSearchMatchCase(boolean lastSearchMatchCase) {
+		JfxTailAppPreferences.lastSearchMatchCase = lastSearchMatchCase;
+		putBoolean(LAST_SEARCH_MATCH_CASE_KEY, lastSearchMatchCase);
 	}
 
 	public static String getLastKnowFolder() {
@@ -140,12 +153,11 @@ public class JfxTailAppPreferences {
 	}
 
 	public static void setLastKnowFolder(String lastFolder) {
-		preferences.put(LAST_KNOWN_FOLDER, lastFolder);
-		LOG.fine("Saved " + LAST_KNOWN_FOLDER + " " + lastFolder);
+		put(LAST_KNOWN_FOLDER, lastFolder);
 	}
 
 	public static void clearLastOpenFiles() {
-		preferences.put(LAST_OPEN_FILES, "");
+		put(LAST_OPEN_FILES, "");
 	}
 
 	public static List<String> getLastOpenFiles() {
@@ -175,8 +187,7 @@ public class JfxTailAppPreferences {
 			sb.append(iterator.next()).append("#");
 		}
 
-		preferences.put(LAST_OPEN_FILES, sb.toString());
-		LOG.fine("Saved " + LAST_OPEN_FILES + " " + sb);
+		put(LAST_OPEN_FILES, sb.toString());
 	}
 
 	public static List<String> getOpenFiles() {
@@ -193,20 +204,17 @@ public class JfxTailAppPreferences {
 			sb.append(iterator.next()).append("#");
 		}
 
-		preferences.put(OPEN_FILES, sb.toString());
-		LOG.fine("Saved " + OPEN_FILES + " " + sb);
+		put(OPEN_FILES, sb.toString());
 	}
 
 	public static void saveHighlightFilters(List<HighlightFilter> highlightings) {
-		preferences.putInt(HIGHLIGHT_FILTERS_NUM, highlightings.size());
-		LOG.fine(HIGHLIGHT_FILTERS_NUM + ": " + highlightings.size());
+		putInt(HIGHLIGHT_FILTERS_NUM, highlightings.size());
 		HighlightFilter highlighting = null;
 		for (int i = 0; i < highlightings.size(); i++) {
 			highlighting = highlightings.get(i);
-			preferences.put(HIGHLIGHT_FILTERS_ENABLED_PREFIX + i, String.valueOf(highlighting.isEnabled()));
-			preferences.put(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, highlighting.getColor());
-			preferences.put(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, highlighting.getToken());
-			LOG.fine(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i + ": " + highlighting.getToken());
+			put(HIGHLIGHT_FILTERS_ENABLED_PREFIX + i, String.valueOf(highlighting.isEnabled()));
+			put(HIGHLIGHT_FILTERS_COLOR_PREFIX + i, highlighting.getColor());
+			put(HIGHLIGHT_FILTERS_TOKEN_PREFIX + i, highlighting.getToken());
 		}
 	}
 
@@ -222,23 +230,22 @@ public class JfxTailAppPreferences {
 
 			}
 		}
-		LOG.fine("HIGHLIGHTING: " + highlightings);
+
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("HIGHLIGHTING: " + highlightings);
+		}
 
 		return highlightings;
 	}
 
 	public static void saveTextFilters(List<TextFilter> textfilters) {
-		preferences.putInt(TEXT_FILTERS_NUM, textfilters.size());
-		LOG.fine(TEXT_FILTERS_NUM + ": " + textfilters.size());
+		putInt(TEXT_FILTERS_NUM, textfilters.size());
 		TextFilter textfilter = null;
 		for (int i = 0; i < textfilters.size(); i++) {
 			textfilter = textfilters.get(i);
-			preferences.put(TEXT_FILTERS_ENABLED_PREFIX + i, String.valueOf(textfilter.isEnabled()));
-			preferences.put(TEXT_FILTERS_TOKEN_PREFIX + i, textfilter.getToken());
-			preferences.put(TEXT_FILTERS_TYPE_PREFIX + i, textfilter.getType());
-			LOG.fine(TEXT_FILTERS_TOKEN_PREFIX + i + ": " + textfilter.getToken());
-			LOG.fine(TEXT_FILTERS_TYPE_PREFIX + i + ": " + textfilter.getType());
-
+			put(TEXT_FILTERS_ENABLED_PREFIX + i, String.valueOf(textfilter.isEnabled()));
+			put(TEXT_FILTERS_TOKEN_PREFIX + i, textfilter.getToken());
+			put(TEXT_FILTERS_TYPE_PREFIX + i, textfilter.getType());
 		}
 	}
 
@@ -252,9 +259,32 @@ public class JfxTailAppPreferences {
 						preferences.get(TEXT_FILTERS_TYPE_PREFIX + i, "")));
 			}
 		}
-		LOG.fine("Text_Filters: " + textfilters);
+
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Text_Filters: " + textfilters);
+		}
 
 		return textfilters;
 	}
 
+	private static void put(String key, String value) {
+		preferences.put(key, value);
+		log(key, value);
+	}
+
+	private static void putBoolean(String key, boolean value) {
+		preferences.putBoolean(key, value);
+		log(key, value);
+	}
+
+	private static void putInt(String key, int value) {
+		preferences.putInt(key, value);
+		log(key, value);
+	}
+
+	private static void log(String key, Object value) {
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("Saved " + key + " " + value);
+		}
+	}
 }

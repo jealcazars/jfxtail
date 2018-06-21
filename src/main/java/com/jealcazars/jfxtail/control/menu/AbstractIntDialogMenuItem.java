@@ -65,9 +65,7 @@ public abstract class AbstractIntDialogMenuItem extends MenuItem {
 				});
 
 				Optional<Integer> optional = dialog.showAndWait();
-				optional.ifPresent(result -> {
-					save(result);
-				});
+				optional.ifPresent(result -> save(result));
 
 			}
 		});

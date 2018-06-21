@@ -49,7 +49,7 @@ public class MainMenu extends VBox {
 			MenuItem menuItem = new MenuItem(file.getAbsolutePath());
 
 			menuItem.setOnAction(event -> {
-				LogFilesTabPane tabPane = (LogFilesTabPane) getScene().lookup("#logFilesTabPane");
+				LogFilesTabPane tabPane = LogFilesTabPane.getLogFilesTabPane(getScene());
 				tabPane.addFile(file, false);
 				refreshRecentFiles();
 			});

@@ -125,7 +125,7 @@
 			<SearchButton fx:id="searchButton" minWidth="48"
 				maxWidth="48">
 				<tooltip>
-					<Tooltip text="Search" />
+					<Tooltip text="Search (F3)" />
 				</tooltip>
 				<graphic>
 					<ImageView>

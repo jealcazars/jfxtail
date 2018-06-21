@@ -3,6 +3,7 @@ package com.jealcazars.jfxtail.control;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.jealcazars.jfxtail.control.menu.OpenMenuItem;
@@ -28,9 +29,7 @@ public class MainMenu extends VBox {
 		FXMLViewLoader.load(this, "MainMenu.xml");
 		menuItemOpen.setParent(this);
 		addClearButtonToRecentFiles();
-		recentFiles.setOnShowing(event -> {
-			refreshRecentFiles();
-		});
+		recentFiles.setOnShowing(event -> refreshRecentFiles());
 	}
 
 	private void refreshRecentFiles() {
@@ -39,8 +38,10 @@ public class MainMenu extends VBox {
 
 		List<String> recentFilesPath = JfxTailAppPreferences.getLastOpenFiles();
 
-		LOG.fine("recentFilesPath.size: " + recentFilesPath.size());
-		LOG.fine("recentFilesPath: " + recentFilesPath);
+		if (LOG.isLoggable(Level.FINE)) {
+			LOG.fine("recentFilesPath.size: " + recentFilesPath.size());
+			LOG.fine("recentFilesPath: " + recentFilesPath);
+		}
 
 		for (Iterator<String> iterator = recentFilesPath.iterator(); iterator.hasNext();) {
 			File file = new File(iterator.next());

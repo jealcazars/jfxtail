@@ -59,11 +59,11 @@ public class JfxTailAppPreferences {
 	private static boolean highlightActive;
 	private static final String HIGHLIGHT_ACTIVE_KEY = "HIGHLIGHT_ACTIVE";
 
-	public static String lastSearch = "lastSearch";
-	public static final String LAST_SEARCH_KEY = "LAST_SEARCH";
+	private static String lastSearch;
+	private static final String LAST_SEARCH_KEY = "LAST_SEARCH";
 
-	public static boolean lastSearchMatchCase;
-	public static final String LAST_SEARCH_MATCH_CASE_KEY = "LAST_SEARCH_MATCH_CASE";
+	private static boolean lastSearchMatchCase;
+	private static final String LAST_SEARCH_MATCH_CASE_KEY = "LAST_SEARCH_MATCH_CASE";
 
 	static {
 		maxLines = preferences.getInt(MAX_LINES_KEY, 2000);
@@ -131,7 +131,7 @@ public class JfxTailAppPreferences {
 	}
 
 	public static String getLastSearch() {
-		return preferences.get(LAST_SEARCH_KEY, "");
+		return lastSearch;
 	}
 
 	public static void setLastSearch(String lastSearch) {

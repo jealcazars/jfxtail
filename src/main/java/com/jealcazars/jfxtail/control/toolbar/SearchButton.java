@@ -71,9 +71,7 @@ public class SearchButton extends Button {
 				saveStatus();
 			});
 
-			caseCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
-				saveStatus();
-			});
+			caseCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> saveStatus());
 
 			this.parentScene = scene;
 

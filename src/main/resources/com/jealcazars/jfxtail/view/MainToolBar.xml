@@ -11,7 +11,7 @@
 <fx:root xmlns:fx="http://javafx.com/fxml"
 	type="javafx.scene.layout.VBox">
 	<ToolBar fx:id="toolBar">
-		<HBox>
+		<HBox spacing="1">
 			<PauseButton fx:id="pauseButton" minWidth="48"
 				maxWidth="48">
 				<tooltip>
@@ -26,20 +26,6 @@
 					</ImageView>
 				</graphic>
 			</PauseButton>
-			<FilterButton fx:id="filterButton" minWidth="48"
-				maxWidth="48">
-				<tooltip>
-					<Tooltip text="Filter" />
-				</tooltip>
-				<graphic>
-					<ImageView>
-						<image>
-							<Image url="com/jealcazars/jfxtail/icons/filter.png"
-								preserveRatio="true" />
-						</image>
-					</ImageView>
-				</graphic>
-			</FilterButton>
 			<ClearSelectedTabButton minWidth="48"
 				maxWidth="48">
 				<tooltip>
@@ -94,6 +80,20 @@
 					</ImageView>
 				</graphic>
 			</ReloadAllTabsButton>
+			<FilterButton fx:id="filterButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Filter" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/filter.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</FilterButton>
 			<HighlightButton fx:id="highlightButton"
 				minWidth="48" maxWidth="48">
 				<tooltip>
@@ -108,10 +108,6 @@
 					</ImageView>
 				</graphic>
 			</HighlightButton>
-			<!-- <SearchButton fx:id="searchButton" minWidth="48" maxWidth="48"> <tooltip> 
-				<Tooltip text="Search" /> </tooltip> <graphic> <ImageView> <image> <Image 
-				url="com/jealcazars/jfxtail/icons/search.png" preserveRatio="true" /> </image> 
-				</ImageView> </graphic> </SearchButton> -->
 			<FollowTailButton fx:id="followTailButton"
 				minWidth="48" maxWidth="48">
 				<tooltip>
@@ -126,6 +122,20 @@
 					</ImageView>
 				</graphic>
 			</FollowTailButton>
+			<SearchButton fx:id="searchButton" minWidth="48"
+				maxWidth="48">
+				<tooltip>
+					<Tooltip text="Search" />
+				</tooltip>
+				<graphic>
+					<ImageView>
+						<image>
+							<Image url="com/jealcazars/jfxtail/icons/search.png"
+								preserveRatio="true" />
+						</image>
+					</ImageView>
+				</graphic>
+			</SearchButton>
 		</HBox>
 	</ToolBar>
 </fx:root>

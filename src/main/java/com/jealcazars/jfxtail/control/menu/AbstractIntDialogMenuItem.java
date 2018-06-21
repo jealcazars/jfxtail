@@ -3,8 +3,6 @@ package com.jealcazars.jfxtail.control.menu;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -47,17 +45,13 @@ public abstract class AbstractIntDialogMenuItem extends MenuItem {
 				numericTextField.setAlignment(Pos.CENTER_RIGHT);
 				numericTextField.setText(getDefaultValue().toString());
 
-				numericTextField.textProperty().addListener(new ChangeListener<String>() {
-					@Override
-					public void changed(ObservableValue<? extends String> observable, String oldValue,
-							String newValue) {
-						if (!newValue.matches("\\d*")) {
-							numericTextField.setText(newValue.replaceAll("[^\\d]", ""));
-						}
+				numericTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+					if (!newValue.matches("\\d*")) {
+						numericTextField.setText(newValue.replaceAll("[^\\d]", ""));
+					}
 
-						if (numericTextField.getText().trim().length() == 0) {
-							dialog.getDialogPane().lookupButton(saveButton).setDisable(true);
-						}
+					if (numericTextField.getText().trim().length() == 0) {
+						dialog.getDialogPane().lookupButton(saveButton).setDisable(true);
 					}
 				});
 

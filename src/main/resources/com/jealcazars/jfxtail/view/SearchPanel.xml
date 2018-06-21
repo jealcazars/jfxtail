@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?language javascript?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+
+
+<fx:root xmlns:fx="http://javafx.com/fxml"
+	type="javafx.scene.layout.GridPane" fx:id="root" alignment="center"
+	hgap="10" vgap="10">
+
+	<Label text="Search:" GridPane.columnIndex="0"
+		GridPane.rowIndex="0" alignment="CENTER" />
+	<TextField GridPane.columnIndex="1" GridPane.rowIndex="0"
+		GridPane.columnSpan="4" fx:id="text" />
+
+	<CheckBox text="Match Case" GridPane.columnIndex="0"
+		GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="caseCheckBox" />
+
+	<Label text="Direction:" GridPane.columnIndex="2"
+		GridPane.rowIndex="1" GridPane.columnSpan="3" />
+
+	<RadioButton text="Down" fx:id="f1"
+		GridPane.columnIndex="3" GridPane.rowIndex="2" selected="true" />
+<!-- 	<RadioButton text="Up" fx:id="f2" GridPane.columnIndex="4"
+		GridPane.rowIndex="2" />
+ -->
+	<Button text="Find" GridPane.columnIndex="3"
+		GridPane.rowIndex="3" GridPane.halignment="RIGHT" fx:id="searchButton"
+		onAction="#search" />
+	<Button text="Close" GridPane.columnIndex="4"
+		GridPane.rowIndex="3" GridPane.halignment="RIGHT"
+		onAction="#closeDialog" />
+
+</fx:root>

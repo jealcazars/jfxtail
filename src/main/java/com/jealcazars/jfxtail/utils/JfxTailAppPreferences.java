@@ -58,6 +58,9 @@ public class JfxTailAppPreferences {
 	private static boolean highlightActive;
 	private static final String HIGHLIGHT_ACTIVE_KEY = "HIGHLIGHT_ACTIVE";
 
+	public static String lastSearch = "lastSearch";
+	public static final String LAST_SEARCH_KEY = "LAST_SEARCH";
+
 	static {
 		maxLines = preferences.getInt(MAX_LINES_KEY, 2000);
 		refreshRate = preferences.getInt(REFRESH_RATE_KEY, 200);
@@ -65,6 +68,7 @@ public class JfxTailAppPreferences {
 		followTail = preferences.getBoolean(FOLLOW_TAIL_KEY, false);
 		filterActive = preferences.getBoolean(FILTER_ACTIVE_KEY, false);
 		highlightActive = preferences.getBoolean(HIGHLIGHT_ACTIVE_KEY, false);
+		lastSearch = preferences.get(LAST_SEARCH_KEY, "");
 	}
 
 	public static boolean isHighlightActive() {
@@ -119,6 +123,16 @@ public class JfxTailAppPreferences {
 	public static void setBufferSize(int value) {
 		bufferSize = value;
 		preferences.putInt(BUFFER_SIZE_KEY, value);
+	}
+
+	public static String getLastSearch() {
+		return preferences.get(LAST_SEARCH_KEY, "");
+	}
+
+	public static void setLastSearch(String lastSearch) {
+		JfxTailAppPreferences.lastSearch = lastSearch;
+		preferences.put(LAST_SEARCH_KEY, lastSearch);
+		LOG.fine("Saved " + LAST_SEARCH_KEY + " " + lastSearch);
 	}
 
 	public static String getLastKnowFolder() {

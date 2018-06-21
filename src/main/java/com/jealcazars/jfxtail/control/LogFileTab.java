@@ -174,4 +174,9 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 	public void cleanHighlightFilter() {
 		HighlightFilterProcessor.cleanHighlighting(codeArea);
 	}
+
+	public CodeArea getCodeArea() {
+		return codeArea;
+	}
+
 }

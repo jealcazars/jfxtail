@@ -10,7 +10,6 @@ Log viewer implemented with JavaFx
 ## Roadmap
 _The following features will be included in later versions:_
 
-- **Tab icon** - Show icon in tab when log change
 - **File enconding** - User can set the encoding used to read the files
 - **Search** - Search button is included but not implemented yet
 - **Color picker** - Replace color combo for highlights with a proper color picker

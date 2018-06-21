@@ -68,16 +68,46 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 		if (FileListener.FILE_WAS_MODIFIED.equals(evt.getPropertyName())) {
 			long lastLength = (Long) evt.getOldValue();
 			long newLength = (Long) evt.getNewValue();
-			readFile((int) lastLength, (int) newLength, true);
+			loadFilesChanges((int) lastLength, (int) newLength, true);
 		}
 	}
 
 	private synchronized void loadFile() {
-		readFile(0, (int) file.length(), false);
+		loadFilesChanges(0, (int) file.length(), false);
 	}
 
-	private synchronized void readFile(int oldLength, int newLength, boolean append) {
+	private synchronized void loadFilesChanges(int oldLength, int newLength, boolean append) {
+		String[] newLines = reafFile(oldLength, newLength);
 
+		Platform.runLater(() -> {
+
+			if (!append) {
+				clear();
+			}
+
+			boolean added = false;
+
+			for (int i = 0; newLines != null && i < newLines.length; i++) {
+				if (lineMustBeAdded(newLines[i])) {
+					codeArea.appendText(newLines[i]);
+					linesAlreadyAdded++;
+
+					if (linesAlreadyAdded > JfxTailAppPreferences.getMaxLines()) {
+						codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
+					}
+
+					added = true;
+				}
+			}
+
+			if (added) {
+				postAddedActions();
+			}
+		});
+	}
+
+	private String[] reafFile(int oldLength, int newLength) {
+		String[] newLines = null;
 		try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
 			int bytesToRead = newLength - oldLength;
 
@@ -87,57 +117,38 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 			}
 
 			byte[] fileContentAsBytes = new byte[bytesToRead];
-			bis.skip(newLength - bytesToRead);
-
-			bis.read(fileContentAsBytes);
-			String[] newLines = new String(fileContentAsBytes, "UTF-8").split("\n");
-
-			Platform.runLater(() -> {
-
-				if (!append) {
-					codeArea.clear();
-					linesAlreadyAdded = 0;
-				}
-
-				boolean added = false;
-
-				for (int i = 0; i < newLines.length; i++) {
-					if (!JfxTailAppPreferences.isFilterActive() || (JfxTailAppPreferences.isFilterActive()
-							&& TextFilterProcessor.lineMustBeAppended(newLines[i]))) {
-						codeArea.appendText(newLines[i]);
-						linesAlreadyAdded++;
-
-						if (linesAlreadyAdded > JfxTailAppPreferences.getMaxLines()) {
-							codeArea.replaceText(0, codeArea.getParagraph(0).length() + 1, "");
-						}
-
-						added = true;
-					}
-				}
-
-				if (added) {
-
-					if (JfxTailAppPreferences.isHighlightActive()) {
-						HighlightFilterProcessor.applyHighlighting(codeArea);
-					}
-
-					if (JfxTailAppPreferences.isFollowTailActive()) {
-						codeArea.scrollBy(new Point2D(0, 10000));
-					}
-
-					if (!isSelected()) {
-						setGraphic(new Rectangle(8, 8, Paint.valueOf("black")));
-					}
-				}
-
-			});
+			bis.skip((long) newLength - (long) bytesToRead);
+			if (bis.read(fileContentAsBytes) > 0) {
+				newLines = new String(fileContentAsBytes, "UTF-8").split("\n");
+			}
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, "Error " + e.getMessage(), e);
+		}
+		return newLines;
+	}
+
+	private boolean lineMustBeAdded(String line) {
+		return !JfxTailAppPreferences.isFilterActive()
+				|| (JfxTailAppPreferences.isFilterActive() && TextFilterProcessor.lineMustBeAppended(line));
+	}
+
+	private void postAddedActions() {
+		if (JfxTailAppPreferences.isHighlightActive()) {
+			HighlightFilterProcessor.applyHighlighting(codeArea);
+		}
+
+		if (JfxTailAppPreferences.isFollowTailActive()) {
+			codeArea.scrollBy(new Point2D(0, 10000));
+		}
+
+		if (!isSelected()) {
+			setGraphic(new Rectangle(8, 8, Paint.valueOf("black")));
 		}
 	}
 
 	public void clear() {
 		codeArea.clear();
+		linesAlreadyAdded = 0;
 	}
 
 	public void reload() {
@@ -162,9 +173,5 @@ public class LogFileTab extends Tab implements PropertyChangeListener {
 
 	public void cleanHighlightFilter() {
 		HighlightFilterProcessor.cleanHighlighting(codeArea);
-	}
-
-	public int getLinesAlreadyAdded() {
-		return linesAlreadyAdded;
 	}
 }
